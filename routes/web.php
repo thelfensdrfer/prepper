@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('landing');
+})->name('landing');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/overview', 'OverviewController@index')->name('overview');
+    Route::put('/foodplan/{food_group}', 'FoodPlanController@update')
+        ->name('foodplan.update');
+});

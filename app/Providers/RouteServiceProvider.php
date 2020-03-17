@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
+use App\FoodGroup;
+
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -21,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/overview';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -30,9 +32,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::pattern('id', '[0-9]+');
 
         parent::boot();
+
+        Route::model('food_group', FoodGroup::class);
     }
 
     /**

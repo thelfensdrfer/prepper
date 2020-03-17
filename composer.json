@@ -9,13 +9,17 @@
     "license": "MIT",
     "require": {
         "php": ">=7.2.5",
+        "ext-json": "*",
         "fideloper/proxy": "4.3.*",
         "fruitcake/laravel-cors": "1.0.*",
         "guzzlehttp/guzzle": "6.5.*",
+        "laracasts/flash": "3.1.*",
         "laravel/framework": "7.1.*",
-        "laravel/ui": "2.0.*"
+        "laravel/ui": "2.0.*",
+        "tightenco/ziggy": "^0.9.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.2",
         "facade/ignition": "2.0.*",
         "fzaninotto/faker": "1.9.*",
         "laravel/homestead": "10.5.*",
@@ -53,13 +57,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
-        ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
+            "php artisan package:discover --ansi",
+            "php artisan ziggy:generate resources/js/ziggy.js"
         ]
     }
 }

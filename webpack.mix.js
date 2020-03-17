@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,7 +12,15 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix
+    .webpackConfig({
+        resolve: {
+            alias: {
+                ziggy: path.resolve('vendor/tightenco/ziggy/dist/js/route.js'),
+            },
+        },
+    })
+    .js('resources/js/app.js', 'public/js')
     .postCss('resources/css/main.css', 'public/css', [
         require('tailwindcss'),
     ]);

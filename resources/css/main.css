@@ -1,5 +1,85 @@
 @import "tailwindcss/base";
-
 @import "tailwindcss/components";
-
 @import "tailwindcss/utilities";
+
+@import '~@fortawesome/fontawesome-pro/css/regular.css';
+@import '~@fortawesome/fontawesome-pro/css/fontawesome.css';
+
+html {
+    @apply h-full;
+}
+
+body {
+    @apply h-full bg-white text-gray-900;
+
+    font-family: Lato, sans-serif;
+}
+
+nav ul li {
+    @apply inline-block leading-4;
+}
+nav ul li a {
+    @apply py-4 px-4 font-bold block;
+}
+nav ul li a:hover {
+    @apply text-black;
+}
+
+/**
+ * Typography
+ */
+
+h2 {
+    @apply text-4xl font-bold uppercase mb-4;
+
+    font-family: Anton, sans-serif;
+}
+
+h3 {
+    @apply text-2xl font-bold uppercase mb-4;
+}
+
+/**
+ * Forms
+ */
+
+label {
+    @apply block text-gray-700 font-bold mb-2;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="number"]{
+    @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus {
+    @apply outline-none shadow-outline;
+}
+
+.btn {
+    @apply font-bold py-2 px-4 rounded;
+}
+.btn:focus {
+    @apply outline-none shadow-outline;
+}
+.btn.disabled,
+.btn[disabled] {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+.btn-primary {
+    @apply bg-blue-500 text-white;
+}
+.btn-primary:hover {
+    @apply bg-blue-700;
+}
+
+.invalid-feedback {
+    @apply text-red-500 font-bold;
+}
