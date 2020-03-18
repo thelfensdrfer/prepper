@@ -37,6 +37,7 @@ class CreateFoodsTable extends Migration
             $table->float('weight')
                 ->comment('Weight in gram per item.');
             $table->date('expired_after')
+                ->nullable()
                 ->comment('Date after which the food should not be eaten anymore.');
 
             $table->timestamps();

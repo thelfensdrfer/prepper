@@ -1,17 +1,18 @@
 <template>
     <div class="flex flex-wrap -mx-4">
         <food-group
-            v-for="food in groups"
-            v-bind:key="food.id"
-            v-bind:foodgroup="food">
+            v-for="group in food_groups"
+            :key="group.id"
+            :food_group="group">
         </food-group>
     </div>
 </template>
 
 <script>
     export default {
+        name: 'FoodGroups',
         props: {
-            groups: {
+            food_groups: {
                 type: Array
             }
         },

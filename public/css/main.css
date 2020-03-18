@@ -23325,6 +23325,14 @@ a:hover {
   transition: background-color 0.2s, color 0.2s;
 }
 
+tr {
+  transition: background-color 0.2s, color 0.2s;
+}
+
+tr:hover {
+  transition: background-color 0.2s, color 0.2s;
+}
+
 /**
  * Forms
  */
@@ -23340,7 +23348,8 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="search"],
-input[type="number"]{
+input[type="number"],
+input[type="date"] {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   -webkit-appearance: none;
      -moz-appearance: none;
@@ -23360,7 +23369,8 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="search"]:focus,
-input[type="number"]:focus {
+input[type="number"]:focus,
+input[type="date"]:focus {
   outline: 0;
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
 }
@@ -23392,6 +23402,13 @@ input[type="number"]:focus {
 
 .btn-primary:hover {
   background-color: #2b6cb0;
+}
+
+.btn-default {
+}
+
+.btn-default:hover {
+  background-color: #edf2f7;
 }
 
 .invalid-feedback {

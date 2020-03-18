@@ -46,6 +46,13 @@ a:hover {
     transition: background-color 0.2s, color 0.2s;
 }
 
+tr {
+    transition: background-color 0.2s, color 0.2s;
+}
+tr:hover {
+    transition: background-color 0.2s, color 0.2s;
+}
+
 /**
  * Forms
  */
@@ -58,14 +65,16 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="search"],
-input[type="number"]{
+input[type="number"],
+input[type="date"] {
     @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight;
 }
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="search"]:focus,
-input[type="number"]:focus {
+input[type="number"]:focus,
+input[type="date"]:focus {
     @apply outline-none shadow-outline;
 }
 
@@ -85,6 +94,12 @@ input[type="number"]:focus {
 }
 .btn-primary:hover {
     @apply bg-blue-700;
+}
+
+.btn-default {
+}
+.btn-default:hover {
+    @apply bg-gray-200;
 }
 
 .invalid-feedback {

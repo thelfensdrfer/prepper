@@ -2,63 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\FoodGroup;
+use Illuminate\Support\Facades\Auth;
+
 use App\Food;
+use App\Http\Requests\StoreFood;
 use App\Http\Requests\UpdateFood;
-use Illuminate\Http\Request;
 
 class FoodController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreFood $request
+     * @param FoodGroup $foodGroup
+     * @return Food
      */
-    public function store(Request $request)
+    public function store(StoreFood $request, FoodGroup $foodGroup)
     {
-        //
-    }
+        $food = new Food;
+        $food->user_id = Auth::user()->id;
+        $food->food_group_id = $foodGroup->id;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Food  $food
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Food $food)
-    {
-        //
-    }
+        $food->fill($request->validated());
+        $food->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Food  $food
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Food $food)
-    {
-        //
+        return $food;
     }
 
     /**

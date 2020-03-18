@@ -15,5 +15,6 @@ class Food extends Model
         'name',
         'count',
         'weight',
+        'expired_after',
     ];
 }
