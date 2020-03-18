@@ -38326,7 +38326,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "flex flex-wrap md:-mx-4" }, [
-                _c("div", { staticClass: "mb-6 md:w-1/2 md:px-4" }, [
+                _c("div", { staticClass: "mb-6 w-full md:w-1/2 md:px-4" }, [
                   _c("label", { attrs: { for: "count" } }, [
                     _vm._v("Number of items")
                   ]),
@@ -38367,7 +38367,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "mb-6 md:w-1/2 md:px-4" }, [
+                _c("div", { staticClass: "mb-6 w-full md:w-1/2 md:px-4" }, [
                   _c("label", { attrs: { for: "weight" } }, [
                     _vm._v("Weight of 1 item in gram")
                   ]),
@@ -38766,7 +38766,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "flex flex-wrap md:-mx-4" }, [
-                  _c("div", { staticClass: "mb-6 md:w-1/2 md:px-4" }, [
+                  _c("div", { staticClass: "mb-6 w-full md:w-1/2 md:px-4" }, [
                     _c("label", { attrs: { for: "count" } }, [
                       _vm._v("Number of items in stock")
                     ]),
@@ -38812,7 +38812,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "mb-6 md:w-1/2 md:px-4" }, [
+                  _c("div", { staticClass: "mb-6 w-full md:w-1/2 md:px-4" }, [
                     _c("label", { attrs: { for: "weight" } }, [
                       _vm._v("Weight of 1 item in gram")
                     ]),

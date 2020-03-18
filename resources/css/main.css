@@ -105,3 +105,10 @@ input[type="date"]:focus {
 .invalid-feedback {
     @apply text-red-500 font-bold;
 }
+
+.alert {
+    @apply p-4;
+}
+.alert-success {
+    @apply bg-green-300 text-green-900;
+}

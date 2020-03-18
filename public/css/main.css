@@ -23416,6 +23416,15 @@ input[type="date"]:focus {
   font-weight: 700;
 }
 
+.alert {
+  padding: 1rem;
+}
+
+.alert-success {
+  background-color: #9ae6b4;
+  color: #22543d;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;

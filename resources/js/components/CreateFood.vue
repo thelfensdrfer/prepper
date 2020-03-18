@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="flex flex-wrap md:-mx-4">
-                    <div class="mb-6 md:w-1/2 md:px-4">
+                    <div class="mb-6 w-full md:w-1/2 md:px-4">
                         <label for="count">Number of items</label>
                         <input id="count" type="number" name="count" min="1" v-model="newFood.count">
 
@@ -25,7 +25,7 @@
                         </span>
                     </div>
 
-                    <div class="mb-6 md:w-1/2 md:px-4">
+                    <div class="mb-6 w-full md:w-1/2 md:px-4">
                         <label for="weight">Weight of 1 item in gram</label>
                         <input id="weight" type="number" name="weight" min="1" v-model="newFood.weight">
 

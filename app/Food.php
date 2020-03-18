@@ -17,4 +17,13 @@ class Food extends Model
         'weight',
         'expired_after',
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'expired_after' => 'date',
+    ];
 }

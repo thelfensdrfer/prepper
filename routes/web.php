@@ -30,3 +30,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/foodplan/{food_group}', 'FoodPlanController@update')
         ->name('foodplan.update');
 });
+
+if (config('app.debug')) {
+    Route::get('/mail/reminder/expires/{user}', function (App\User $user) {
+        $foodAboutToExpire = $user->foodAboutToExpire();
+
+        return new App\Mail\FoodExpires($foodAboutToExpire);
+    });
+}
