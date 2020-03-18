@@ -1910,6 +1910,40 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1966,13 +2000,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      adjustOptimalStockShowing: false,
+      showOptimalStockModal: false,
       isSavingOptimalStock: false,
-      optimalStock: 0
+      optimalStock: 0,
+      showUpdateStockModal: false,
+      isSavingCurrentStock: false,
+      selectedStockFood: {}
     };
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.debug("Food group ".concat(this.foodgroup.id, " mounted."));
 
     if (this.foodgroup.food_plan) {
       this.optimalStock = this.foodgroup.food_plan.optimal_stock;
@@ -2016,6 +2053,30 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    setInputError: function setInputError(inputName, message) {
+      var feedbackElement = this.$el.querySelector('[name="' + inputName + '"]').parentNode.querySelector('.invalid-feedback');
+
+      if (!feedbackElement) {
+        console.error('Could not find invalid-feedback element next to ' + inputName);
+        return;
+      }
+
+      feedbackElement.classList.remove('hidden');
+      feedbackElement.innerText = message;
+    },
+    handleFormErrors: function handleFormErrors(response) {
+      if (response.status === 422 && response.data && response.data.errors) {
+        for (var _i = 0, _Object$entries = Object.entries(response.data.errors); _i < _Object$entries.length; _i++) {
+          var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+              inputName = _Object$entries$_i[0],
+              errors = _Object$entries$_i[1];
+
+          this.setInputError(inputName, errors[0]);
+        }
+      } else {
+        console.error(response);
+      }
+    },
     saveOptimalStock: function saveOptimalStock() {
       console.debug('Save new optimal stock', this.optimalStock);
       this.isSavingOptimalStock = true;
@@ -2026,20 +2087,43 @@ __webpack_require__.r(__webpack_exports__);
         optimal_stock: this.optimalStock
       })["catch"](function (err) {
         that.isSavingOptimalStock = false;
-        var errorElement = that.$el.querySelector('.invalid-feedback');
-        errorElement.classList.remove('hidden');
-        errorElement.querySelector('strong').innerText = 'There was an error while trying to save the data! Please try again later.';
+        that.handleFormErrors(err.response);
       }).then(function (response) {
         if (response && response.data) {
-          var errorElement = that.$el.querySelector('.invalid-feedback');
-          errorElement.classList.add('hidden');
-          errorElement.querySelector('strong').innerText = '';
           that.foodgroup.food_plan = response.data;
-          that.adjustOptimalStockShowing = false;
+          that.showOptimalStockModal = false;
         }
-      })["finally"](function (data) {
+      })["finally"](function (response) {
         that.isSavingOptimalStock = false;
       });
+    },
+    saveCurrentStock: function saveCurrentStock() {
+      console.debug('Save current stock', this.selectedStockFood.id);
+      this.isSavingCurrentStock = true;
+      var that = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(this.route('food.update', {
+        food: this.selectedStockFood.id
+      }), this.selectedStockFood)["catch"](function (err) {
+        that.isSavingCurrentStock = false;
+        that.handleFormErrors(err.response);
+      }).then(function (response) {
+        if (response && response.data) {
+          for (var i = 0; i < that.foodgroup.foods.length; i++) {
+            if (that.foodgroup.foods[i].id === response.data.id) {
+              that.foodgroup.foods[i] = response.data;
+              break;
+            }
+          }
+
+          that.showUpdateStockModal = false;
+        }
+      })["finally"](function () {
+        that.isSavingCurrentStock = false;
+      });
+    },
+    openUpdateStockModal: function openUpdateStockModal(food) {
+      this.showUpdateStockModal = true;
+      this.selectedStockFood = food;
     }
   }
 });
@@ -2072,7 +2156,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.debug('Food groups mounted.');
   }
 });
 
@@ -20389,167 +20473,332 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4" }, [
-    _c("div", { staticClass: "shadow p-4" }, [
-      _c("div", { staticClass: "flex mb-4" }, [
-        _c("h3", { staticClass: "flex-grow mb-0" }, [
-          _c("i", {
-            staticClass: "text-xl pl-1",
-            class: _vm.iconClass,
-            attrs: { "aria-hidden": "true" }
-          }),
-          _vm._v(
-            "\n\n                " +
-              _vm._s(_vm.foodgroup.name) +
-              "\n            "
+    _c(
+      "div",
+      { staticClass: "shadow p-4" },
+      [
+        _c("div", { staticClass: "flex mb-4" }, [
+          _c("h3", { staticClass: "flex-grow mb-0" }, [
+            _c("i", {
+              staticClass: "text-xl pl-1",
+              class: _vm.iconClass,
+              attrs: { "aria-hidden": "true" }
+            }),
+            _vm._v(
+              "\n\n                " +
+                _vm._s(_vm.foodgroup.name) +
+                "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "flex-shrink" },
+            [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "cursor-pointer block h-full px-2 py-1 hover:text-blue-500",
+                  on: {
+                    click: function($event) {
+                      _vm.showOptimalStockModal = true
+                    }
+                  }
+                },
+                [
+                  _c("i", {
+                    class: _vm.stockIconClass,
+                    attrs: { "aria-hidden": "true" }
+                  }),
+                  _vm._v(
+                    " " +
+                      _vm._s(_vm.stock) +
+                      " / " +
+                      _vm._s(_vm.optimalStock) +
+                      "\n                "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "modal",
+                {
+                  attrs: { showing: _vm.showOptimalStockModal },
+                  on: {
+                    close: function($event) {
+                      _vm.showOptimalStockModal = false
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.saveOptimalStock($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "mb-6 flex flex-wrap" }, [
+                        _c("label", { attrs: { for: "optimal_stock" } }, [
+                          _vm._v("Adjust optimal stock")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.optimalStock,
+                              expression: "optimalStock"
+                            }
+                          ],
+                          attrs: {
+                            id: "optimal_stock",
+                            type: "number",
+                            name: "optimal_stock"
+                          },
+                          domProps: { value: _vm.optimalStock },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.optimalStock = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("span", {
+                          staticClass: "hidden invalid-feedback font-bold",
+                          attrs: { role: "alert" }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary float-right",
+                          attrs: {
+                            type: "submit",
+                            disabled: _vm.isSavingOptimalStock
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "far fa-save",
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v(" Save\n                        ")
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("table", { staticClass: "w-full" }, [
+          _c(
+            "tbody",
+            _vm._l(_vm.foodgroup.foods, function(food) {
+              return _c(
+                "tr",
+                {
+                  key: food.id,
+                  staticClass: "cursor-pointer hover:bg-gray-200",
+                  on: {
+                    click: function($event) {
+                      return _vm.openUpdateStockModal(food)
+                    }
+                  }
+                },
+                [
+                  _c("td", {
+                    staticClass: "px-2 py-1",
+                    domProps: { textContent: _vm._s(food.name) }
+                  }),
+                  _vm._v(" "),
+                  _c("td", {
+                    staticClass: "px-2 py-1 text-right font-mono",
+                    domProps: { textContent: _vm._s(food.count) }
+                  }),
+                  _vm._v(" "),
+                  _c("td", {
+                    staticClass: "px-2 py-1 text-right font-mono",
+                    domProps: { textContent: _vm._s(food.weight + "g") }
+                  })
+                ]
+              )
+            }),
+            0
           )
         ]),
         _vm._v(" "),
         _c(
-          "div",
-          { staticClass: "flex-shrink leading-8" },
+          "modal",
+          {
+            attrs: { showing: _vm.showUpdateStockModal },
+            on: {
+              close: function($event) {
+                _vm.showUpdateStockModal = false
+              }
+            }
+          },
           [
             _c(
-              "a",
+              "form",
               {
-                staticClass: "cursor-pointer",
                 on: {
-                  click: function($event) {
-                    _vm.adjustOptimalStockShowing = true
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.saveCurrentStock($event)
                   }
                 }
               },
               [
-                _c("i", {
-                  class: _vm.stockIconClass,
-                  attrs: { "aria-hidden": "true" }
-                }),
-                _vm._v(
-                  " " +
-                    _vm._s(_vm.stock) +
-                    " / " +
-                    _vm._s(_vm.optimalStock) +
-                    "\n                "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "modal",
-              {
-                attrs: { showing: _vm.adjustOptimalStockShowing },
-                on: {
-                  close: function($event) {
-                    _vm.adjustOptimalStockShowing = false
-                  }
-                }
-              },
-              [
-                _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.saveOptimalStock($event)
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedStockFood.id,
+                      expression: "selectedStockFood.id"
+                    }
+                  ],
+                  attrs: { type: "hidden", name: "id" },
+                  domProps: { value: _vm.selectedStockFood.id },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
                       }
+                      _vm.$set(_vm.selectedStockFood, "id", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "mb-6 flex flex-wrap" }, [
+                  _c("label", { attrs: { for: "count" } }, [
+                    _vm._v("Number of items in stock")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedStockFood.count,
+                        expression: "selectedStockFood.count"
+                      }
+                    ],
+                    attrs: {
+                      id: "count",
+                      type: "number",
+                      name: "count",
+                      min: "1"
+                    },
+                    domProps: { value: _vm.selectedStockFood.count },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.selectedStockFood,
+                          "count",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass: "hidden invalid-feedback",
+                      attrs: { role: "alert" }
+                    },
+                    [_c("strong")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "mb-6 flex flex-wrap" }, [
+                  _c("label", { attrs: { for: "weight" } }, [
+                    _vm._v("Weight of 1 item in gram")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedStockFood.weight,
+                        expression: "selectedStockFood.weight"
+                      }
+                    ],
+                    attrs: {
+                      id: "weight",
+                      type: "number",
+                      name: "weight",
+                      min: "1"
+                    },
+                    domProps: { value: _vm.selectedStockFood.weight },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.selectedStockFood,
+                          "weight",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass: "hidden invalid-feedback",
+                      attrs: { role: "alert" }
+                    },
+                    [_c("strong")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary float-right",
+                    attrs: {
+                      type: "submit",
+                      disabled: _vm.isSavingCurrentStock
                     }
                   },
                   [
-                    _c("div", { staticClass: "mb-6 flex flex-wrap" }, [
-                      _c("label", { attrs: { for: "optimal_stock" } }, [
-                        _vm._v("Adjust optimal stock")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.optimalStock,
-                            expression: "optimalStock"
-                          }
-                        ],
-                        attrs: {
-                          id: "optimal_stock",
-                          type: "number",
-                          name: "optimal_stock"
-                        },
-                        domProps: { value: _vm.optimalStock },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.optimalStock = $event.target.value
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticClass: "hidden invalid-feedback",
-                          attrs: { role: "alert" }
-                        },
-                        [_c("strong")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary float-right",
-                        attrs: {
-                          type: "submit",
-                          disabled: _vm.isSavingOptimalStock
-                        }
-                      },
-                      [
-                        _c("i", {
-                          staticClass: "far fa-save",
-                          attrs: { "aria-hidden": "true" }
-                        }),
-                        _vm._v(" Save\n                        ")
-                      ]
-                    )
+                    _c("i", {
+                      staticClass: "far fa-save",
+                      attrs: { "aria-hidden": "true" }
+                    }),
+                    _vm._v(" Save\n                ")
                   ]
                 )
               ]
             )
-          ],
-          1
+          ]
         )
-      ]),
-      _vm._v(" "),
-      _c("table", { staticClass: "w-full" }, [
-        _c(
-          "tbody",
-          _vm._l(_vm.foodgroup.foods, function(food) {
-            return _c(
-              "tr",
-              { key: food.id, staticClass: "hover:bg-gray-300" },
-              [
-                _c("td", {
-                  staticClass: "p-1",
-                  domProps: { textContent: _vm._s(food.name) }
-                }),
-                _vm._v(" "),
-                _c("td", {
-                  staticClass: "p-1 text-right font-mono",
-                  domProps: { textContent: _vm._s(food.count) }
-                }),
-                _vm._v(" "),
-                _c("td", {
-                  staticClass: "p-1 text-right font-mono",
-                  domProps: { textContent: _vm._s(food.weight + "g") }
-                })
-              ]
-            )
-          }),
-          0
-        )
-      ])
-    ])
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []

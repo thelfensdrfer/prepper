@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Food;
+use App\Http\Requests\UpdateFood;
 use Illuminate\Http\Request;
 
 class FoodController extends Controller
@@ -63,13 +64,16 @@ class FoodController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Food  $food
-     * @return \Illuminate\Http\Response
+     * @param UpdateFood $request
+     * @param \App\Food $food
+     * @return Food
      */
-    public function update(Request $request, Food $food)
+    public function update(UpdateFood $request, Food $food)
     {
-        //
+        $food->fill($request->validated())
+            ->save();
+
+        return $food;
     }
 
     /**

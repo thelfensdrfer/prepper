@@ -8,20 +8,18 @@
                     {{ foodgroup.name }}
                 </h3>
 
-                <div class="flex-shrink leading-8">
-                    <a class="cursor-pointer" @click="adjustOptimalStockShowing = true">
+                <div class="flex-shrink">
+                    <a class="cursor-pointer block h-full px-2 py-1 hover:text-blue-500" @click="showOptimalStockModal = true">
                         <i :class="stockIconClass" aria-hidden="true"></i> {{ stock }} / {{ optimalStock }}
                     </a>
 
-                    <modal :showing="adjustOptimalStockShowing" @close="adjustOptimalStockShowing = false">
+                    <modal :showing="showOptimalStockModal" @close="showOptimalStockModal = false">
                         <form v-on:submit.prevent="saveOptimalStock">
                             <div class="mb-6 flex flex-wrap">
                                 <label for="optimal_stock">Adjust optimal stock</label>
                                 <input id="optimal_stock" type="number" name="optimal_stock" v-model="optimalStock">
 
-                                <span class="hidden invalid-feedback" role="alert">
-                                    <strong></strong>
-                                </span>
+                                <span class="hidden invalid-feedback font-bold" role="alert"></span>
                             </div>
 
                             <button type="submit" class="btn btn-primary float-right" :disabled="isSavingOptimalStock">
@@ -34,13 +32,41 @@
 
             <table class="w-full">
                 <tbody>
-                    <tr v-for="food in foodgroup.foods" v-bind:key="food.id" class="hover:bg-gray-300">
-                        <td v-text="food.name" class="p-1"></td>
-                        <td v-text="food.count" class="p-1 text-right font-mono"></td>
-                        <td v-text="food.weight + 'g'" class="p-1 text-right font-mono"></td>
+                    <tr v-for="food in foodgroup.foods" v-bind:key="food.id" class="cursor-pointer hover:bg-gray-200" @click="openUpdateStockModal(food)">
+                        <td v-text="food.name" class="px-2 py-1"></td>
+                        <td v-text="food.count" class="px-2 py-1 text-right font-mono"></td>
+                        <td v-text="food.weight + 'g'" class="px-2 py-1 text-right font-mono"></td>
                     </tr>
                 </tbody>
             </table>
+
+            <modal :showing="showUpdateStockModal" @close="showUpdateStockModal = false">
+                <form v-on:submit.prevent="saveCurrentStock">
+                    <input type="hidden" name="id" v-model="selectedStockFood.id">
+
+                    <div class="mb-6 flex flex-wrap">
+                        <label for="count">Number of items in stock</label>
+                        <input id="count" type="number" name="count" min="1" v-model="selectedStockFood.count">
+
+                        <span class="hidden invalid-feedback" role="alert">
+                            <strong></strong>
+                        </span>
+                    </div>
+
+                    <div class="mb-6 flex flex-wrap">
+                        <label for="weight">Weight of 1 item in gram</label>
+                        <input id="weight" type="number" name="weight" min="1" v-model="selectedStockFood.weight">
+
+                        <span class="hidden invalid-feedback" role="alert">
+                            <strong></strong>
+                        </span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary float-right" :disabled="isSavingCurrentStock">
+                        <i class="far fa-save" aria-hidden="true"></i> Save
+                    </button>
+                </form>
+            </modal>
         </div>
     </div>
 </template>
@@ -56,13 +82,17 @@
         },
         data() {
             return {
-                adjustOptimalStockShowing: false,
+                showOptimalStockModal: false,
                 isSavingOptimalStock: false,
                 optimalStock: 0,
+
+                showUpdateStockModal: false,
+                isSavingCurrentStock: false,
+                selectedStockFood: {},
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            console.debug(`Food group ${this.foodgroup.id} mounted.`)
 
             if (this.foodgroup.food_plan) {
                 this.optimalStock = this.foodgroup.food_plan.optimal_stock;
@@ -106,6 +136,29 @@
             }
         },
         methods: {
+            setInputError(inputName, message) {
+                let feedbackElement =  this.$el
+                    .querySelector('[name="' + inputName + '"]')
+                    .parentNode
+                    .querySelector('.invalid-feedback');
+
+                if (!feedbackElement) {
+                    console.error('Could not find invalid-feedback element next to ' + inputName);
+                    return;
+                }
+
+                feedbackElement.classList.remove('hidden');
+                feedbackElement.innerText = message;
+            },
+            handleFormErrors(response) {
+                if (response.status === 422 && response.data && response.data.errors) {
+                    for (let [inputName, errors] of Object.entries(response.data.errors)) {
+                        this.setInputError(inputName, errors[0]);
+                    }
+                } else {
+                    console.error(response);
+                }
+            },
             saveOptimalStock() {
                 console.debug('Save new optimal stock', this.optimalStock);
 
@@ -121,23 +174,52 @@
                     .catch(function (err) {
                         that.isSavingOptimalStock = false;
 
-                        let errorElement =  that.$el.querySelector('.invalid-feedback');
-                        errorElement.classList.remove('hidden');
-                        errorElement.querySelector('strong').innerText = 'There was an error while trying to save the data! Please try again later.';
+                        that.handleFormErrors(err.response);
                     })
                     .then(function (response) {
                         if (response && response.data) {
-                            let errorElement =  that.$el.querySelector('.invalid-feedback');
-                            errorElement.classList.add('hidden');
-                            errorElement.querySelector('strong').innerText = '';
-
                             that.foodgroup.food_plan = response.data;
-                            that.adjustOptimalStockShowing = false;
+                            that.showOptimalStockModal = false;
                         }
                     })
-                    .finally(function (data) {
+                    .finally(function (response) {
                         that.isSavingOptimalStock = false;
                     });
+            },
+            saveCurrentStock() {
+                console.debug('Save current stock', this.selectedStockFood.id);
+
+                this.isSavingCurrentStock = true;
+
+                let that = this;
+
+                axios.put(this.route('food.update', {
+                        food: this.selectedStockFood.id
+                    }), this.selectedStockFood)
+                    .catch(function (err) {
+                        that.isSavingCurrentStock = false;
+
+                        that.handleFormErrors(err.response);
+                    })
+                    .then(function (response) {
+                        if (response && response.data) {
+                            for (let i = 0; i < that.foodgroup.foods.length; i++) {
+                                if (that.foodgroup.foods[i].id === response.data.id) {
+                                    that.foodgroup.foods[i] = response.data;
+                                    break;
+                                }
+                            }
+
+                            that.showUpdateStockModal = false;
+                        }
+                    })
+                    .finally(function () {
+                        that.isSavingCurrentStock = false;
+                    });
+            },
+            openUpdateStockModal(food) {
+                this.showUpdateStockModal = true;
+                this.selectedStockFood = food;
             }
         }
     }

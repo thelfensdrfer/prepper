@@ -39,6 +39,13 @@ h3 {
     @apply text-2xl font-bold uppercase mb-4;
 }
 
+a {
+    transition: background-color 0.2s, color 0.2s;
+}
+a:hover {
+    transition: background-color 0.2s, color 0.2s;
+}
+
 /**
  * Forms
  */

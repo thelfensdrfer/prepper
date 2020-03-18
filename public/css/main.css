@@ -23317,6 +23317,14 @@ h3 {
   margin-bottom: 1rem;
 }
 
+a {
+  transition: background-color 0.2s, color 0.2s;
+}
+
+a:hover {
+  transition: background-color 0.2s, color 0.2s;
+}
+
 /**
  * Forms
  */
