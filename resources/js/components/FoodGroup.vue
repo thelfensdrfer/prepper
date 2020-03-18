@@ -264,8 +264,6 @@
                 const expires_at = moment(food.expired_after);
                 const diff = moment().diff(expires_at, 'days');
 
-                console.log(expires_at, diff);
-
                 if (diff < -30) {
                     return '';
                 } else if (diff <= 0) {

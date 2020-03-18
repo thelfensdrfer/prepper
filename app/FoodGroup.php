@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class FoodGroup extends Model
 {
@@ -11,7 +12,8 @@ class FoodGroup extends Model
      */
     public function foods()
     {
-        return $this->hasMany(Food::class);
+        return $this->hasMany(Food::class)
+            ->where('user_id', Auth::user()->id);
     }
 
     /**
@@ -19,6 +21,7 @@ class FoodGroup extends Model
      */
     public function foodPlan()
     {
-        return $this->hasOne(FoodPlan::class);
+        return $this->hasOne(FoodPlan::class)
+            ->where('user_id', Auth::user()->id);
     }
 }

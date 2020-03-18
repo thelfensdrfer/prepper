@@ -2279,7 +2279,6 @@ __webpack_require__.r(__webpack_exports__);
     isExpiredClass: function isExpiredClass(food) {
       var expires_at = moment__WEBPACK_IMPORTED_MODULE_1___default()(food.expired_after);
       var diff = moment__WEBPACK_IMPORTED_MODULE_1___default()().diff(expires_at, 'days');
-      console.log(expires_at, diff);
 
       if (diff < -30) {
         return '';

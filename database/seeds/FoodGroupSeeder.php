@@ -20,7 +20,7 @@ class FoodGroupSeeder extends Seeder
                 'icon' => 'glass',
             ],
             [
-                'name' => 'fruit',
+                'name' => 'fruits',
                 'icon' => 'apple-crate'
             ],
             [
