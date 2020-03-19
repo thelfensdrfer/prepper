@@ -23282,12 +23282,20 @@ body {
   font-family: Lato, sans-serif;
 }
 
-nav ul li {
+nav ul li,
+#navbar-responsive ul li {
   display: inline-block;
   line-height: 1rem;
 }
 
-nav ul li a {
+#navbar-responsive ul li {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+nav ul li a,
+#navbar-responsive ul li a {
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1rem;
@@ -23297,8 +23305,23 @@ nav ul li a {
   display: block;
 }
 
+#navbar-responsive ul li a {
+  color: #e2e8f0;
+  font-size: 1.125rem;
+  border-width: 1px;
+  border-color: #fff;
+}
+
 nav ul li a:hover {
   color: #000;
+}
+
+#navbar-responsive ul li a:hover {
+  color: #fff;
+}
+
+#navbar-responsive {
+  background-color: rgba(0, 0, 0, .7);
 }
 
 /**

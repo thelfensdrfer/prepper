@@ -15,14 +15,34 @@ body {
     font-family: Lato, sans-serif;
 }
 
-nav ul li {
+nav ul li,
+#navbar-responsive ul li {
     @apply inline-block leading-4;
 }
-nav ul li a {
+
+#navbar-responsive ul li {
+    @apply block my-4;
+}
+
+nav ul li a,
+#navbar-responsive ul li a {
     @apply py-4 px-4 text-gray-700 font-bold block;
 }
+
+#navbar-responsive ul li a {
+    @apply text-gray-300 text-lg border border-white;
+}
+
 nav ul li a:hover {
     @apply text-black;
+}
+
+#navbar-responsive ul li a:hover {
+    @apply text-white;
+}
+
+#navbar-responsive {
+    background-color: rgba(0, 0, 0, .7);
 }
 
 /**

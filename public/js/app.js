@@ -52168,7 +52168,29 @@ files.keys().map(function (key) {
  */
 
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  mounted: function mounted() {
+    var that = this;
+    document.querySelector('#navbar-responsive').addEventListener('click', function (e) {
+      if (e.target.id === 'navbar-responsive') {
+        that.closeResponsiveNavbar();
+      }
+    });
+  },
+  methods: {
+    openResponsiveNavbar: function openResponsiveNavbar() {
+      console.debug('Open responsive navbar');
+      var responsiveNavbar = document.querySelector('#navbar-responsive');
+      responsiveNavbar.classList.remove('hidden');
+      responsiveNavbar.classList.add('absolute');
+    },
+    closeResponsiveNavbar: function closeResponsiveNavbar() {
+      console.debug('Close responsive navbar');
+      var responsiveNavbar = document.querySelector('#navbar-responsive');
+      responsiveNavbar.classList.remove('absolute');
+      responsiveNavbar.classList.add('hidden');
+    }
+  }
 });
 
 /***/ }),

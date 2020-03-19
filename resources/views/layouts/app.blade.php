@@ -3,53 +3,50 @@
 @section('content_main')
     <body>
         <div id="app">
-            <nav class="flex py-4 px-12 my-4">
-                <ul class="list-none">
+            <nav class="flex flex-wrap py-4 px-12 my-4">
+                <!-- Logo -->
+                <ul class="list-none flex-grow lg:flex-grow-0">
                     <li class="leading-none">
                         <a href="{{ route('landing') }}" class="py-0">
                             <img src="{{ asset('/images/logo.png') }}" alt="{{ config('app.name', 'Prepper') }}" class="h-12">
                         </a>
                     </li>
                 </ul>
-                <ul class="flex-grow list-none ml-4 pt-1">
-                    <li>
-                        <a href="{{ route('food.index') }}">{{ __('Food') }}</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('checklist.index') }}">{{ __('Checklists') }}</a>
-                    </li>
+
+                <!-- Left Side Of Navbar -->
+                <ul class="hidden lg:inline-block lg:flex-grow list-none ml-4 pt-1">
+                    @include('layouts._navbar-main')
                 </ul>
 
                 <!-- Right Side Of Navbar -->
-                <ul class="flex-shrink list-none pt-1">
-                    <!-- Authentication Links -->
-                    @guest
-                        <li>
-                            <a href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
+                <ul class="hidden lg:inline-block lg:flex-shrink list-none pt-1">
+                    @include('layouts._navbar-auth')
+                </ul>
 
-                        <li>
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                    @else
-                        <li>
-                            <a href="#">
-                                {{ Auth::user()->email }}
-                            </a>
-                        </li>
-
-                        <li>
-                            <a  href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" class="hidden" action="{{ route('logout') }}" method="POST">
-                                @csrf
-                            </form>
-                        </li>
-                    @endguest
+                <!-- Hamburger menu -->
+                <ul class="inline-block lg:hidden list-none pt-1">
+                    <li>
+                        <a class="cursor-pointer" @click="openResponsiveNavbar">
+                            <i class="far fa-bars" aria-hidden="true"></i>
+                        </a>
+                    </li>
                 </ul>
             </nav>
+
+            <div id="navbar-responsive" class="hidden flex flex-col justify-center inset-0 my">
+                <div class="w-9/12 mx-auto">
+                    <div class="text-right -mr-4">
+                        <a class="cursor-pointer text-white text-4xl p-4" @click="closeResponsiveNavbar" title="{{ __('Close navigation') }}">
+                            <i class="far fa-times" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <ul class="text-center w-9/12 mx-auto">
+                    @include('layouts._navbar-main')
+                    @include('layouts._navbar-auth')
+                </ul>
+            </div>
 
             <div class="border-b border-gray-200"></div>
 

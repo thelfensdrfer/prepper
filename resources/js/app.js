@@ -36,4 +36,31 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 const app = new Vue({
     el: '#app',
+    mounted() {
+        let that = this;
+
+        document.querySelector('#navbar-responsive').addEventListener('click', function (e) {
+            if (e.target.id === 'navbar-responsive') {
+                that.closeResponsiveNavbar();
+            }
+        })
+    },
+    methods: {
+        openResponsiveNavbar () {
+            console.debug('Open responsive navbar');
+
+            let responsiveNavbar = document.querySelector('#navbar-responsive');
+
+            responsiveNavbar.classList.remove('hidden');
+            responsiveNavbar.classList.add('absolute');
+        },
+        closeResponsiveNavbar () {
+            console.debug('Close responsive navbar');
+
+            let responsiveNavbar = document.querySelector('#navbar-responsive');
+
+            responsiveNavbar.classList.remove('absolute');
+            responsiveNavbar.classList.add('hidden');
+        }
+    }
 });
