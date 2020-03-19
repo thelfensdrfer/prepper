@@ -44,7 +44,8 @@ class CreateFoodsTable extends Migration
 
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
             $table->foreign('food_group_id')
                 ->references('id')
                 ->on('food_groups');
@@ -53,14 +54,25 @@ class CreateFoodsTable extends Migration
         Schema::create('food_plans', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('food_group_id');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')
+                ->unsigned();
+            $table->bigInteger('food_group_id')
+                ->unsigned();
+
             $table->bigInteger('optimal_stock')
                 ->comment('How much gram does the user want to have in stock, from this food group, at any given time.')
                 ->nullable()
                 ->unsigned();
 
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->foreign('food_group_id')
+                ->references('id')
+                ->on('food_groups');
         });
     }
 

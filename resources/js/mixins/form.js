@@ -1,6 +1,11 @@
 export default {
     methods: {
         setInputError(inputName, message) {
+            if (!this.$el.querySelector('[name="' + inputName + '"]')) {
+                console.error(`Could not find input element ${inputName}`);
+                return;
+            }
+
             let feedbackElement =  this.$el
                 .querySelector('[name="' + inputName + '"]')
                 .parentNode

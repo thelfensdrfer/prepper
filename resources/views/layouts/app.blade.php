@@ -11,12 +11,12 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="flex-grow list-none pt-1">
+                <ul class="flex-grow list-none ml-4 pt-1">
                     <li>
                         <a href="{{ route('food.index') }}">{{ __('Food') }}</a>
                     </li>
                     <li>
-                        <a href="#">{{ __('Checklist') }}</a>
+                        <a href="{{ route('checklist.index') }}">{{ __('Checklist') }}</a>
                     </li>
                 </ul>
 
@@ -51,7 +51,9 @@
                 </ul>
             </nav>
 
-            <main class="py-4 px-16">
+            <div class="border-b border-gray-200"></div>
+
+            <main class="py-8 px-16">
                 @include('flash::message')
 
                 @yield('content')

@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
+    <div class="w-full lg:w-1/2 xl:w-1/3 2xl:w-1/4 p-4">
         <div class="shadow p-4">
             <div class="flex mb-4">
                 <h3 class="flex-grow mb-0">
@@ -17,7 +17,7 @@
                                 <label for="optimal_stock">
                                     Adjust optimal stock for <i class="pl-1" :class="iconClass" aria-hidden="true"></i>
                                 </label>
-                                <input id="optimal_stock" type="number" name="optimal_stock" v-model="optimalStock">
+                                <input id="optimal_stock" type="number" name="optimal_stock" v-model.number="optimalStock">
 
                                 <span class="hidden invalid-feedback font-bold" role="alert"></span>
                             </div>
@@ -48,7 +48,7 @@
 
                     <div class="mb-6">
                         <label for="name">Name</label>
-                        <input id="name" type="text" name="name" v-model="selectedStockFood.name" required>
+                        <input id="name" type="text" name="name" v-model.trim="selectedStockFood.name" required>
 
                         <span class="hidden invalid-feedback" role="alert">
                             <strong></strong>
@@ -58,7 +58,7 @@
                     <div class="flex flex-wrap md:-mx-4">
                         <div class="mb-6 w-full md:w-1/2 md:px-4">
                             <label for="count">Number of items in stock</label>
-                            <input id="count" type="number" name="count" min="1" v-model="selectedStockFood.count" required>
+                            <input id="count" type="number" name="count" min="1" v-model.number="selectedStockFood.count" required>
 
                             <span class="hidden invalid-feedback" role="alert">
                                 <strong></strong>
@@ -67,7 +67,7 @@
 
                         <div class="mb-6 w-full md:w-1/2 md:px-4">
                             <label for="weight">Weight of 1 item in gram</label>
-                            <input id="weight" type="number" name="weight" min="1" v-model="selectedStockFood.weight" required>
+                            <input id="weight" type="number" name="weight" min="1" v-model.number="selectedStockFood.weight" required>
 
                             <span class="hidden invalid-feedback" role="alert">
                                 <strong></strong>
@@ -258,7 +258,6 @@
             },
             addFood(food) {
                 this.foods.push(food);
-                console.log('pushed', food);
             },
             isExpiredClass (food) {
                 const expires_at = moment(food.expired_after);

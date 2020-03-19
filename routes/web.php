@@ -31,6 +31,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::put('/foodplan/{food_group}', 'FoodPlanController@update')
         ->name('foodplan.update');
+
+    Route::get('/checklists', 'ChecklistController@index')
+        ->name('checklist.index');
+    Route::post('/checklist/{checklist}/item', 'ChecklistItemController@store')
+        ->name('checklist.item.store');
+    Route::put('/checklist/item/{item}', 'ChecklistItemController@update')
+        ->name('checklist.item.update');
 });
 
 if (config('app.debug')) {

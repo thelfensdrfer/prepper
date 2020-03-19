@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
+use App\Checklist;
+use App\ChecklistItem;
 use App\FoodGroup;
 
 class RouteServiceProvider extends ServiceProvider
@@ -23,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/overview';
+    public const HOME = '/food';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -32,11 +34,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::pattern('id', '[0-9]+');
-
         parent::boot();
 
         Route::model('food_group', FoodGroup::class);
+        Route::model('checklist', Checklist::class);
+        Route::model('item', ChecklistItem::class);
     }
 
     /**

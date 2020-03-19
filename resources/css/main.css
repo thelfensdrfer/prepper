@@ -19,7 +19,7 @@ nav ul li {
     @apply inline-block leading-4;
 }
 nav ul li a {
-    @apply py-4 px-4 font-bold block;
+    @apply py-4 px-4 text-gray-700 font-bold block;
 }
 nav ul li a:hover {
     @apply text-black;

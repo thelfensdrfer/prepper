@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Food extends Model
+class ChecklistItem extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -14,8 +14,6 @@ class Food extends Model
     protected $fillable = [
         'name',
         'count',
-        'weight',
-        'expired_after',
     ];
 
     /**
@@ -25,7 +23,13 @@ class Food extends Model
      */
     protected $casts = [
         'count' => 'integer',
-        'weight' => 'integer',
-        'expired_after' => 'date',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function checklist()
+    {
+        return $this->belongsTo(Checklist::class);
+    }
 }

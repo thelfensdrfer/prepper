@@ -13,11 +13,12 @@
         name: 'FoodGroups',
         props: {
             food_groups: {
-                type: Array
+                type: Array,
+                required: true
             }
         },
         mounted() {
-            console.debug('Food groups mounted.')
+            console.debug('Food groups mounted.');
         }
     }
 </script>

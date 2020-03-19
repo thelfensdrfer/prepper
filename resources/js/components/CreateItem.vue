@@ -6,19 +6,10 @@
 
         <modal :showing="showModal" @close="showModal = false">
             <form v-on:submit.prevent="save">
-                <div class="mb-6">
-                    <label for="name">Name</label>
-                    <input id="name" type="text" name="name" v-model.trim="newFood.name" required>
-
-                    <span class="hidden invalid-feedback" role="alert">
-                        <strong></strong>
-                    </span>
-                </div>
-
                 <div class="flex flex-wrap md:-mx-4">
                     <div class="mb-6 w-full md:w-1/2 md:px-4">
-                        <label for="count">Number of items</label>
-                        <input id="count" type="number" name="count" min="1" v-model.number="newFood.count">
+                        <label for="name">Name</label>
+                        <input id="name" type="text" name="name" v-model.trim="newItem.name" required>
 
                         <span class="hidden invalid-feedback" role="alert">
                             <strong></strong>
@@ -26,22 +17,13 @@
                     </div>
 
                     <div class="mb-6 w-full md:w-1/2 md:px-4">
-                        <label for="weight">Weight of 1 item in gram</label>
-                        <input id="weight" type="number" name="weight" min="1" v-model.number="newFood.weight">
+                        <label for="count">Number of items</label>
+                        <input id="count" type="number" name="count" min="0" v-model.number="newItem.count">
 
                         <span class="hidden invalid-feedback" role="alert">
                             <strong></strong>
                         </span>
                     </div>
-                </div>
-
-                <div class="mb-6">
-                    <label for="expired_after">Expires after</label>
-                    <input id="expired_after" type="date" name="expired_after" v-model="newFood.expired_after">
-
-                    <span class="hidden invalid-feedback" role="alert">
-                        <strong></strong>
-                    </span>
                 </div>
 
                 <button type="submit" class="btn btn-primary float-right" :disabled="isSaving">
@@ -60,12 +42,12 @@
     import FormMixin from './../mixins/form';
 
     export default {
-        name: 'CreateFood',
+        name: 'CreateItem',
         mixins: [
             FormMixin,
         ],
         props: {
-            food_group: {
+            checklist: {
                 type: Object,
                 required: true,
             }
@@ -74,25 +56,23 @@
             return {
                 showModal: false,
                 isSaving: false,
-                newFood: {
+                newItem: {
                     name: null,
                     count: 1,
-                    weight: 100,
-                    expired_after: null,
                 }
             }
         },
         methods: {
             save() {
-                console.debug('Save new food', this.newFood);
+                console.debug('Save new item', this.newItem);
 
                 this.isSaving = true;
 
                 let that = this;
 
-                axios.post(this.route('food.store', {
-                        food_group: this.food_group.id
-                    }), this.newFood)
+                axios.post(this.route('checklist.item.store', {
+                        checklist: this.checklist.id
+                    }), this.newItem)
                     .catch(function (err) {
                         that.isSaving = false;
 
@@ -106,7 +86,7 @@
                     .then(function (response) {
                         if (response && response.data) {
                             that.showModal = false;
-                            that.$emit('food-created', response.data);
+                            that.$emit('item-created', response.data);
                         }
                     })
                     .finally(function (response) {
