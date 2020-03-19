@@ -84,7 +84,7 @@
                         </span>
                     </div>
 
-                    <button type="button" class="text-red-500" @click="removeFood(selectedFood)" :disabled="isRemovingFood">
+                    <button type="button" class="text-red-500" @click="deleteFood(selectedFood)" :disabled="isRemovingFood">
                         Remove
                     </button>
 
@@ -264,7 +264,7 @@
             addFood (food) {
                 this.foods.push(food);
             },
-            removeFood () {
+            deleteFood () {
                 console.debug(`Removing food ${this.selectedFood.id}`)
 
                 let that = this;

@@ -2579,7 +2579,7 @@ __webpack_require__.r(__webpack_exports__);
     addFood: function addFood(food) {
       this.foods.push(food);
     },
-    removeFood: function removeFood() {
+    deleteFood: function deleteFood() {
       console.debug("Removing food ".concat(this.selectedFood.id));
       var that = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](this.route('food.delete', {
@@ -39767,7 +39767,7 @@ var render = function() {
                     attrs: { type: "button", disabled: _vm.isRemovingFood },
                     on: {
                       click: function($event) {
-                        return _vm.removeFood(_vm.selectedFood)
+                        return _vm.deleteFood(_vm.selectedFood)
                       }
                     }
                   },
