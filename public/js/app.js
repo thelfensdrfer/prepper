@@ -2234,7 +2234,7 @@ __webpack_require__.r(__webpack_exports__);
           that.food_group.food_plan = response.data;
           that.showOptimalStockModal = false;
         }
-      })["finally"](function (response) {
+      })["finally"](function () {
         that.isSavingOptimalStock = false;
       });
     },
@@ -2283,10 +2283,10 @@ __webpack_require__.r(__webpack_exports__);
       if (diff < -30) {
         return '';
       } else if (diff <= 0) {
-        return 'bg-yellow-200';
+        return 'bg-yellow-100 text-yellow-900';
       }
 
-      return 'bg-red-200';
+      return 'bg-red-100 text-red-900';
     }
   }
 });
