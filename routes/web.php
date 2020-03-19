@@ -26,8 +26,8 @@ Route::group(['middleware' => 'auth'], function () {
         ->name('food.store');
     Route::put('/food/{food}', 'FoodController@update')
         ->name('food.update');
-    Route::delete('/food/{food}', 'FoodController@destroy')
-        ->name('food.destroy');
+    Route::delete('/food/{food}', 'FoodController@delete')
+        ->name('food.delete');
 
     Route::put('/foodplan/{food_group}', 'FoodPlanController@update')
         ->name('foodplan.update');

@@ -65,11 +65,12 @@ class FoodController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Food  $food
-     * @return \Illuminate\Http\Response
+     * @param \App\Food $food
+     * @return void
+     * @throws \Exception
      */
-    public function destroy(Food $food)
+    public function delete(Food $food)
     {
-        //
+        $food->delete();
     }
 }

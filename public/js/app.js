@@ -2429,6 +2429,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2460,9 +2464,10 @@ __webpack_require__.r(__webpack_exports__);
       showOptimalStockModal: false,
       isSavingOptimalStock: false,
       optimalStock: 0,
-      showUpdateStockModal: false,
-      isSavingCurrentStock: false,
-      selectedStockFood: {}
+      showUpdateFoodModal: false,
+      isUpdatingFood: false,
+      isRemovingFood: false,
+      selectedFood: {}
     };
   },
   mounted: function mounted() {
@@ -2537,14 +2542,14 @@ __webpack_require__.r(__webpack_exports__);
         that.isSavingOptimalStock = false;
       });
     },
-    saveCurrentStock: function saveCurrentStock() {
-      console.debug('Save current stock', this.selectedStockFood.id);
-      this.isSavingCurrentStock = true;
+    updateFood: function updateFood() {
+      console.debug("Update food ".concat(this.selectedFood.id));
+      this.isUpdatingFood = true;
       var that = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(this.route('food.update', {
-        food: this.selectedStockFood.id
-      }), this.selectedStockFood)["catch"](function (err) {
-        that.isSavingCurrentStock = false;
+        food: this.selectedFood.id
+      }), this.selectedFood)["catch"](function (err) {
+        that.isUpdatingFood = false;
 
         if (err.response) {
           that.handleFormErrors(err.response || []);
@@ -2561,18 +2566,47 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
 
-          that.showUpdateStockModal = false;
+          that.showUpdateFoodModal = false;
         }
       })["finally"](function () {
-        that.isSavingCurrentStock = false;
+        that.isUpdatingFood = false;
       });
     },
     openUpdateStockModal: function openUpdateStockModal(food) {
-      this.showUpdateStockModal = true;
-      this.selectedStockFood = food;
+      this.showUpdateFoodModal = true;
+      this.selectedFood = food;
     },
     addFood: function addFood(food) {
       this.foods.push(food);
+    },
+    removeFood: function removeFood() {
+      console.debug("Removing food ".concat(this.selectedFood.id));
+      var that = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](this.route('food.delete', {
+        food: this.selectedFood
+      }))["catch"](function (err) {
+        that.isRemovingFood = false;
+
+        if (err.response) {
+          that.handleFormErrors(err.response || []);
+          return;
+        }
+
+        console.error(err);
+      }).then(function (response) {
+        if (response && response.status === 200) {
+          for (var i = 0; i < that.foods.length; i++) {
+            if (that.foods[i].id === that.selectedFood.id) {
+              that.foods.splice(i, 1);
+              break;
+            }
+          }
+        }
+
+        that.showUpdateFoodModal = false;
+      })["finally"](function () {
+        that.isRemovingFood = false;
+      });
     },
     isExpiredClass: function isExpiredClass(food) {
       var expires_at = moment__WEBPACK_IMPORTED_MODULE_1___default()(food.expired_after);
@@ -39493,10 +39527,10 @@ var render = function() {
         _c(
           "modal",
           {
-            attrs: { showing: _vm.showUpdateStockModal },
+            attrs: { showing: _vm.showUpdateFoodModal },
             on: {
               close: function($event) {
-                _vm.showUpdateStockModal = false
+                _vm.showUpdateFoodModal = false
               }
             }
           },
@@ -39507,7 +39541,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.saveCurrentStock($event)
+                    return _vm.updateFood($event)
                   }
                 }
               },
@@ -39517,18 +39551,18 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.selectedStockFood.id,
-                      expression: "selectedStockFood.id"
+                      value: _vm.selectedFood.id,
+                      expression: "selectedFood.id"
                     }
                   ],
                   attrs: { type: "hidden", name: "id" },
-                  domProps: { value: _vm.selectedStockFood.id },
+                  domProps: { value: _vm.selectedFood.id },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.selectedStockFood, "id", $event.target.value)
+                      _vm.$set(_vm.selectedFood, "id", $event.target.value)
                     }
                   }
                 }),
@@ -39541,8 +39575,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model.trim",
-                        value: _vm.selectedStockFood.name,
-                        expression: "selectedStockFood.name",
+                        value: _vm.selectedFood.name,
+                        expression: "selectedFood.name",
                         modifiers: { trim: true }
                       }
                     ],
@@ -39552,14 +39586,14 @@ var render = function() {
                       name: "name",
                       required: ""
                     },
-                    domProps: { value: _vm.selectedStockFood.name },
+                    domProps: { value: _vm.selectedFood.name },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
                         _vm.$set(
-                          _vm.selectedStockFood,
+                          _vm.selectedFood,
                           "name",
                           $event.target.value.trim()
                         )
@@ -39591,8 +39625,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model.number",
-                          value: _vm.selectedStockFood.count,
-                          expression: "selectedStockFood.count",
+                          value: _vm.selectedFood.count,
+                          expression: "selectedFood.count",
                           modifiers: { number: true }
                         }
                       ],
@@ -39603,14 +39637,14 @@ var render = function() {
                         min: "1",
                         required: ""
                       },
-                      domProps: { value: _vm.selectedStockFood.count },
+                      domProps: { value: _vm.selectedFood.count },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
                           _vm.$set(
-                            _vm.selectedStockFood,
+                            _vm.selectedFood,
                             "count",
                             _vm._n($event.target.value)
                           )
@@ -39641,8 +39675,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model.number",
-                          value: _vm.selectedStockFood.weight,
-                          expression: "selectedStockFood.weight",
+                          value: _vm.selectedFood.weight,
+                          expression: "selectedFood.weight",
                           modifiers: { number: true }
                         }
                       ],
@@ -39653,14 +39687,14 @@ var render = function() {
                         min: "1",
                         required: ""
                       },
-                      domProps: { value: _vm.selectedStockFood.weight },
+                      domProps: { value: _vm.selectedFood.weight },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
                           _vm.$set(
-                            _vm.selectedStockFood,
+                            _vm.selectedFood,
                             "weight",
                             _vm._n($event.target.value)
                           )
@@ -39692,8 +39726,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.selectedStockFood.expired_after,
-                        expression: "selectedStockFood.expired_after"
+                        value: _vm.selectedFood.expired_after,
+                        expression: "selectedFood.expired_after"
                       }
                     ],
                     attrs: {
@@ -39701,14 +39735,14 @@ var render = function() {
                       type: "date",
                       name: "expired_after"
                     },
-                    domProps: { value: _vm.selectedStockFood.expired_after },
+                    domProps: { value: _vm.selectedFood.expired_after },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
                         _vm.$set(
-                          _vm.selectedStockFood,
+                          _vm.selectedFood,
                           "expired_after",
                           $event.target.value
                         )
@@ -39729,11 +39763,22 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-primary float-right",
-                    attrs: {
-                      type: "submit",
-                      disabled: _vm.isSavingCurrentStock
+                    staticClass: "text-red-500",
+                    attrs: { type: "button", disabled: _vm.isRemovingFood },
+                    on: {
+                      click: function($event) {
+                        return _vm.removeFood(_vm.selectedFood)
+                      }
                     }
+                  },
+                  [_vm._v("\n                    Remove\n                ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary float-right",
+                    attrs: { type: "submit", disabled: _vm.isUpdatingFood }
                   },
                   [
                     _c("i", {

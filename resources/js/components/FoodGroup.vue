@@ -42,13 +42,13 @@
 
             <create-food :food_group="food_group" v-on:food-created="addFood"></create-food>
 
-            <modal :showing="showUpdateStockModal" @close="showUpdateStockModal = false">
-                <form v-on:submit.prevent="saveCurrentStock">
-                    <input type="hidden" name="id" v-model="selectedStockFood.id">
+            <modal :showing="showUpdateFoodModal" @close="showUpdateFoodModal = false">
+                <form v-on:submit.prevent="updateFood">
+                    <input type="hidden" name="id" v-model="selectedFood.id">
 
                     <div class="mb-6">
                         <label for="name">Name</label>
-                        <input id="name" type="text" name="name" v-model.trim="selectedStockFood.name" required>
+                        <input id="name" type="text" name="name" v-model.trim="selectedFood.name" required>
 
                         <span class="hidden invalid-feedback" role="alert">
                             <strong></strong>
@@ -58,7 +58,7 @@
                     <div class="flex flex-wrap md:-mx-4">
                         <div class="mb-6 w-full md:w-1/2 md:px-4">
                             <label for="count">Number of items in stock</label>
-                            <input id="count" type="number" name="count" min="1" v-model.number="selectedStockFood.count" required>
+                            <input id="count" type="number" name="count" min="1" v-model.number="selectedFood.count" required>
 
                             <span class="hidden invalid-feedback" role="alert">
                                 <strong></strong>
@@ -67,7 +67,7 @@
 
                         <div class="mb-6 w-full md:w-1/2 md:px-4">
                             <label for="weight">Weight of 1 item in gram</label>
-                            <input id="weight" type="number" name="weight" min="1" v-model.number="selectedStockFood.weight" required>
+                            <input id="weight" type="number" name="weight" min="1" v-model.number="selectedFood.weight" required>
 
                             <span class="hidden invalid-feedback" role="alert">
                                 <strong></strong>
@@ -77,14 +77,18 @@
 
                     <div class="mb-6">
                         <label for="expired_after">Expires after</label>
-                        <input id="expired_after" type="date" name="expired_after" v-model="selectedStockFood.expired_after">
+                        <input id="expired_after" type="date" name="expired_after" v-model="selectedFood.expired_after">
 
                         <span class="hidden invalid-feedback" role="alert">
                             <strong></strong>
                         </span>
                     </div>
 
-                    <button type="submit" class="btn btn-primary float-right" :disabled="isSavingCurrentStock">
+                    <button type="button" class="text-red-500" @click="removeFood(selectedFood)" :disabled="isRemovingFood">
+                        Remove
+                    </button>
+
+                    <button type="submit" class="btn btn-primary float-right" :disabled="isUpdatingFood">
                         <i class="far fa-save" aria-hidden="true"></i> Save
                     </button>
                 </form>
@@ -132,9 +136,10 @@
                 isSavingOptimalStock: false,
                 optimalStock: 0,
 
-                showUpdateStockModal: false,
-                isSavingCurrentStock: false,
-                selectedStockFood: {},
+                showUpdateFoodModal: false,
+                isUpdatingFood: false,
+                isRemovingFood: false,
+                selectedFood: {},
             }
         },
         mounted() {
@@ -184,7 +189,7 @@
             },
         },
         methods: {
-            saveOptimalStock() {
+            saveOptimalStock () {
                 console.debug('Save new optimal stock', this.optimalStock);
 
                 this.isSavingOptimalStock = true;
@@ -216,18 +221,18 @@
                         that.isSavingOptimalStock = false;
                     });
             },
-            saveCurrentStock() {
-                console.debug('Save current stock', this.selectedStockFood.id);
+            updateFood () {
+                console.debug(`Update food ${this.selectedFood.id}`);
 
-                this.isSavingCurrentStock = true;
+                this.isUpdatingFood = true;
 
                 let that = this;
 
                 axios.put(this.route('food.update', {
-                        food: this.selectedStockFood.id
-                    }), this.selectedStockFood)
+                        food: this.selectedFood.id
+                    }), this.selectedFood)
                     .catch(function (err) {
-                        that.isSavingCurrentStock = false;
+                        that.isUpdatingFood = false;
 
                         if (err.response) {
                             that.handleFormErrors(err.response || []);
@@ -245,19 +250,53 @@
                                 }
                             }
 
-                            that.showUpdateStockModal = false;
+                            that.showUpdateFoodModal = false;
                         }
                     })
                     .finally(function () {
-                        that.isSavingCurrentStock = false;
+                        that.isUpdatingFood = false;
                     });
             },
-            openUpdateStockModal(food) {
-                this.showUpdateStockModal = true;
-                this.selectedStockFood = food;
+            openUpdateStockModal (food) {
+                this.showUpdateFoodModal = true;
+                this.selectedFood = food;
             },
-            addFood(food) {
+            addFood (food) {
                 this.foods.push(food);
+            },
+            removeFood () {
+                console.debug(`Removing food ${this.selectedFood.id}`)
+
+                let that = this;
+
+                axios.delete(this.route('food.delete', {
+                        food: this.selectedFood
+                    }))
+                    .catch(function (err) {
+                        that.isRemovingFood = false;
+
+                        if (err.response) {
+                            that.handleFormErrors(err.response || []);
+                            return;
+                        }
+
+                        console.error(err);
+                    })
+                    .then(function (response) {
+                        if (response && response.status === 200) {
+                            for (let i = 0; i < that.foods.length; i++) {
+                                if (that.foods[i].id === that.selectedFood.id) {
+                                    that.foods.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        }
+
+                        that.showUpdateFoodModal = false;
+                    })
+                    .finally(function () {
+                        that.isRemovingFood = false;
+                    });
             },
             isExpiredClass (food) {
                 const expires_at = moment(food.expired_after);
