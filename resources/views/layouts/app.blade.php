@@ -4,16 +4,24 @@
     <body>
         <div id="app">
             <nav class="flex py-4 px-12 my-4">
-                <ul class="flex-grow">
+                <ul class="list-none">
                     <li class="leading-none">
                         <a href="{{ route('landing') }}" class="py-0">
                             <img src="{{ asset('/images/logo.png') }}" alt="{{ config('app.name', 'Prepper') }}" class="h-12">
                         </a>
                     </li>
                 </ul>
+                <ul class="flex-grow list-none pt-1">
+                    <li>
+                        <a href="{{ route('food.index') }}">{{ __('Food') }}</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ __('Checklist') }}</a>
+                    </li>
+                </ul>
 
                 <!-- Right Side Of Navbar -->
-                <ul class="flex-shrink list-none">
+                <ul class="flex-shrink list-none pt-1">
                     <!-- Authentication Links -->
                     @guest
                         <li>
@@ -35,7 +43,7 @@
                                 {{ __('Logout') }}
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form" class="hidden" action="{{ route('logout') }}" method="POST">
                                 @csrf
                             </form>
                         </li>

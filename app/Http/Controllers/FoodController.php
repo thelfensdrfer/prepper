@@ -12,6 +12,23 @@ use App\Http\Requests\UpdateFood;
 class FoodController extends Controller
 {
     /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('food.index', [
+            'foodGroups' => FoodGroup::
+                with([
+                    'foods',
+                    'foodPlan',
+                ])
+                ->get(),
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param StoreFood $request

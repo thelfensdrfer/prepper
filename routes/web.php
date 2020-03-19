@@ -20,13 +20,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/overview', 'OverviewController@index')->name('overview');
+    Route::get('/food', 'FoodController@index')
+        ->name('food.index');
     Route::post('/food/{food_group}', 'FoodController@store')
         ->name('food.store');
     Route::put('/food/{food}', 'FoodController@update')
         ->name('food.update');
     Route::delete('/food/{food}', 'FoodController@destroy')
         ->name('food.destroy');
+
     Route::put('/foodplan/{food_group}', 'FoodPlanController@update')
         ->name('foodplan.update');
 });

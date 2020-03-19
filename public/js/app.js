@@ -51751,8 +51751,8 @@ var Ziggy = {
       "methods": ["GET", "HEAD"],
       "domain": null
     },
-    "overview": {
-      "uri": "overview",
+    "food.index": {
+      "uri": "food",
       "methods": ["GET", "HEAD"],
       "domain": null
     },
