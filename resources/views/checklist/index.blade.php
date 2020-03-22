@@ -9,5 +9,5 @@
         <create-checklist></create-checklist>
     </div>
 
-    <checklists :checklists='@json($checklists)'></checklists>
+    <checklists :lists='@json($checklists)'></checklists>
 @endsection

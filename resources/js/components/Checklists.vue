@@ -1,9 +1,9 @@
 <template>
     <div class="flex flex-wrap -mx-4">
         <checklist
-            v-for="checklist in lists"
+            v-for="checklist in checklists"
             :key="checklist.id"
-            :checklist="checklist">
+            :list="checklist">
         </checklist>
     </div>
 </template>
@@ -14,14 +14,14 @@
     export default {
         name: 'Checklists',
         props: {
-            checklists: {
+            lists: {
                 type: Array,
                 required: true
             }
         },
         data () {
             return {
-                lists: this.checklists
+                checklists: this.lists
             }
         },
         mounted() {
@@ -30,7 +30,7 @@
             let that = this;
 
             EventBus.$on('checklist-created', function (checklist) {
-                that.lists.push(checklist);
+                that.checklists.push(checklist);
             })
         }
     }

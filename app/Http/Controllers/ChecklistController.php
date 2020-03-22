@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateChecklist;
 use Illuminate\Support\Facades\Auth;
 
 use App\Checklist;
@@ -36,6 +37,19 @@ class ChecklistController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
+        $checklist->load('items');
+
+        return $checklist;
+    }
+
+    /**
+     * @param UpdateChecklist $request
+     * @return Checklist
+     */
+    public function update(UpdateChecklist $request, Checklist $checklist)
+    {
+        $checklist->fill($request->validated());
+        $checklist->save();
         $checklist->load('items');
 
         return $checklist;

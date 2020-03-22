@@ -42,7 +42,7 @@ export default [
         'value': 'toilet-paper',
     },
     {
-        'value': 'shove',
+        'value': 'shovel',
     },
     {
         'value': 'map-marked',

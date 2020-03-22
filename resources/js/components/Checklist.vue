@@ -1,21 +1,25 @@
 <template>
     <div class="w-full lg:w-1/2 xl:w-1/3 2xl:w-1/4 p-4">
-        <div class="shadow p-4">
+        <div class="shadow p-4" v-if="checklist">
             <div class="flex mb-4">
                 <h3 class="flex-grow mb-0">
-                    <i class="text-xl pl-1" :class="iconClass" aria-hidden="true"></i>&nbsp;{{ checklist.name }}
+                    <a class="cursor-pointer hover:text-blue-500" @click="openUpdateChecklistModal()">
+                        <i class="text-xl pl-1" :class="iconClass" aria-hidden="true"></i>&nbsp;{{ checklist.name }}
+                    </a>
                 </h3>
+
+                <update-checklist :checklist="checklist" :show-modal="showUpdateChecklist"></update-checklist>
 
                 <div class="flex-shrink">
                     <div class="h-full px-2 py-1">
-                        <i :class="checklistIconClass" aria-hidden="true"></i> {{ countAvailableItems }} / {{ items.length }}
+                        <i :class="checklistIconClass" aria-hidden="true"></i> {{ availableItemsCount }} / {{ checklist.items.length }}
                     </div>
                 </div>
             </div>
 
             <table class="w-full">
                 <tbody>
-                    <tr v-for="item in items" :key="item.id" class="cursor-pointer hover:bg-gray-200" @click="openUpdateItemModal(item)">
+                    <tr v-for="item in checklist.items" :key="item.id" class="cursor-pointer hover:bg-gray-200" @click="openUpdateItemModal(item)">
                         <td>
                             <i class="far fa-fw" :class="{ 'fa-check-circle text-green-500': item.count > 0, 'fa-times text-red-500': item.count === 0 }" aria-hidden="true"></i>
                         </td>
@@ -64,42 +68,58 @@
     import axios from 'axios';
 
     import CreateItem from './CreateItem';
+    import UpdateChecklist from './UpdateChecklist';
     import FormMixin from './../mixins/form';
+    import EventBus from '../eventbus';
 
     export default {
         name: 'Checklist',
         components: {
-            CreateItem
+            CreateItem,
+            UpdateChecklist,
         },
         mixins: [
             FormMixin,
         ],
         props: {
-            checklist: {
+            list: {
                 type: Object,
                 required: true
             }
         },
-        data() {
+        data () {
             return {
-                items: [],
+                checklist: null,
 
                 showUpdateItem: false,
                 isSavingItem: false,
                 selectedItem: {},
+
+                showUpdateChecklist: false,
             }
         },
-        mounted() {
-            console.debug(`Checklist ${this.checklist.id} mounted.`)
+        mounted () {
+            console.debug(`Checklist ${this.list.id} mounted.`)
 
-            this.items = this.checklist.items;
+            this.checklist = this.list;
+
+            let that = this;
+
+            EventBus.$on('checklist-updated', function (checklist) {
+                if (that.checklist.id !== checklist.id) {
+                    return;
+                }
+
+                that.checklist = checklist;
+                that.showUpdateChecklist = false;
+            })
         },
         computed: {
             iconClass () {
                 return 'far fa-' + this.checklist.icon
             },
-            countAvailableItems () {
-                return this.items.filter(function (item) {
+            availableItemsCount () {
+                return this.checklist.items.filter(function (item) {
                     return item.count > 0;
                 }).length;
             },
@@ -107,7 +127,7 @@
                 const CLASS_GREEN = 'far fa-check-circle text-green-500';
                 const CLASS_RED = 'far fa-times-circle text-red-500';
 
-                if (this.items.length === this.countAvailableItems) {
+                if (this.checklist.items.length === this.availableItemsCount) {
                     return CLASS_GREEN;
                 }
 
@@ -115,7 +135,7 @@
             },
         },
         methods: {
-            updateItem() {
+            updateItem () {
                 console.debug('Save selected item', this.selectedItem.id);
 
                 this.isSavingItem = true;
@@ -137,9 +157,9 @@
                     })
                     .then(function (response) {
                         if (response && response.data) {
-                            for (let i = 0; i < that.items.length; i++) {
-                                if (that.items[i].id === response.data.id) {
-                                    that.items[i] = response.data;
+                            for (let i = 0; i < that.checklist.items.length; i++) {
+                                if (that.checklist.items[i].id === response.data.id) {
+                                    that.checklist.items[i] = response.data;
                                     break;
                                 }
                             }
@@ -151,13 +171,16 @@
                         that.isSavingItem = false;
                     });
             },
-            openUpdateItemModal(item) {
+            openUpdateItemModal (item) {
                 this.showUpdateItem = true;
                 this.selectedItem = item;
             },
-            addItem(item) {
-                this.items.push(item);
-            }
+            addItem (item) {
+                this.checklist.items.push(item);
+            },
+            openUpdateChecklistModal () {
+                this.showUpdateChecklist = true;
+            },
         }
     }
 </script>

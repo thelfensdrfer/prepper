@@ -62,8 +62,12 @@
                 }
             }
         },
+        mounted () {
+            this.newItem.name = null;
+            this.newItem.count = 1;
+        },
         methods: {
-            save() {
+            save () {
                 console.debug('Save new item', this.newItem);
 
                 this.isSaving = true;

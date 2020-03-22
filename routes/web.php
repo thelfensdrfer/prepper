@@ -36,6 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
         ->name('checklist.index');
     Route::post('/checklists', 'ChecklistController@store')
         ->name('checklist.store');
+    Route::put('/checklists/{checklist}', 'ChecklistController@update')
+        ->name('checklist.update');
     Route::post('/checklist/{checklist}/item', 'ChecklistItemController@store')
         ->name('checklist.item.store');
     Route::put('/checklist/item/{item}', 'ChecklistItemController@update')
