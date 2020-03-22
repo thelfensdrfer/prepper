@@ -20,7 +20,8 @@ class CreateChecklistsTable extends Migration
                 ->unsigned();
 
             $table->string('name', 100);
-            $table->string('icon', 50);
+            $table->string('icon', 50)
+                ->nullable();
 
             $table->timestamps();
 
