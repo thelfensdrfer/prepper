@@ -43,6 +43,10 @@ class FoodGroupSeeder extends Seeder
                 'name' => 'vegetables',
                 'icon' => 'carrot'
             ],
+            [
+                'name' => 'misc',
+                'icon' => 'candy-cane',
+            ]
         ]);
     }
 }
