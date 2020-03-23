@@ -55,6 +55,10 @@
                         </div>
                     </div>
 
+                    <button type="button" class="text-red-500" @click="deleteItem(selectedItem)" :disabled="isRemovingItem">
+                        Remove
+                    </button>
+
                     <button type="submit" class="btn btn-primary float-right" :disabled="isSavingItem">
                         <i class="far fa-save" aria-hidden="true"></i> Save
                     </button>
@@ -96,6 +100,8 @@
                 selectedItem: {},
 
                 showUpdateChecklist: false,
+
+                isRemovingItem: false,
             }
         },
         mounted () {
@@ -181,6 +187,40 @@
             openUpdateChecklistModal () {
                 this.showUpdateChecklist = true;
             },
+            deleteItem () {
+                console.debug(`Removing item ${this.selectedItem.id}`)
+
+                let that = this;
+
+                axios.delete(this.route('checklist.item.delete', {
+                        item: this.selectedItem
+                    }))
+                    .catch(function (err) {
+                        that.isRemovingItem = false;
+
+                        if (err.response) {
+                            that.handleFormErrors(err.response || []);
+                            return;
+                        }
+
+                        console.error(err);
+                    })
+                    .then(function (response) {
+                        if (response && response.status === 200) {
+                            for (let i = 0; i < that.checklist.items.length; i++) {
+                                if (that.checklist.items[i].id === that.selectedItem.id) {
+                                    that.checklist.items.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        }
+
+                        that.showUpdateItem = false;
+                    })
+                    .finally(function () {
+                        that.isRemovingItem = false;
+                    });
+            }
         }
     }
 </script>

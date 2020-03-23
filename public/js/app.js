@@ -1980,6 +1980,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2004,7 +2008,8 @@ __webpack_require__.r(__webpack_exports__);
       showUpdateItem: false,
       isSavingItem: false,
       selectedItem: {},
-      showUpdateChecklist: false
+      showUpdateChecklist: false,
+      isRemovingItem: false
     };
   },
   mounted: function mounted() {
@@ -2080,6 +2085,35 @@ __webpack_require__.r(__webpack_exports__);
     },
     openUpdateChecklistModal: function openUpdateChecklistModal() {
       this.showUpdateChecklist = true;
+    },
+    deleteItem: function deleteItem() {
+      console.debug("Removing item ".concat(this.selectedItem.id));
+      var that = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](this.route('checklist.item.delete', {
+        item: this.selectedItem
+      }))["catch"](function (err) {
+        that.isRemovingItem = false;
+
+        if (err.response) {
+          that.handleFormErrors(err.response || []);
+          return;
+        }
+
+        console.error(err);
+      }).then(function (response) {
+        if (response && response.status === 200) {
+          for (var i = 0; i < that.checklist.items.length; i++) {
+            if (that.checklist.items[i].id === that.selectedItem.id) {
+              that.checklist.items.splice(i, 1);
+              break;
+            }
+          }
+        }
+
+        that.showUpdateItem = false;
+      })["finally"](function () {
+        that.isRemovingItem = false;
+      });
     }
   }
 });
@@ -39149,6 +39183,20 @@ var render = function() {
                     _c(
                       "button",
                       {
+                        staticClass: "text-red-500",
+                        attrs: { type: "button", disabled: _vm.isRemovingItem },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteItem(_vm.selectedItem)
+                          }
+                        }
+                      },
+                      [_vm._v("\n                    Remove\n                ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
                         staticClass: "btn btn-primary float-right",
                         attrs: { type: "submit", disabled: _vm.isSavingItem }
                       },
@@ -53881,6 +53929,11 @@ var Ziggy = {
     "checklist.item.update": {
       "uri": "checklist\/item\/{item}",
       "methods": ["PUT"],
+      "domain": null
+    },
+    "checklist.item.delete": {
+      "uri": "checklist\/item\/{item}",
+      "methods": ["DELETE"],
       "domain": null
     }
   },

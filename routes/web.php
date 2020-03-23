@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
         ->name('checklist.item.store');
     Route::put('/checklist/item/{item}', 'ChecklistItemController@update')
         ->name('checklist.item.update');
+    Route::delete('/checklist/item/{item}', 'ChecklistItemController@delete')
+        ->name('checklist.item.delete');
 });
 
 if (config('app.debug')) {

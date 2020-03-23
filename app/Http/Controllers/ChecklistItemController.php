@@ -37,4 +37,14 @@ class ChecklistItemController extends Controller
 
         return $item;
     }
+
+    /**
+     * @param ChecklistItem $item
+     * @return void
+     * @throws \Exception
+     */
+    public function delete(ChecklistItem $item)
+    {
+        $item->delete();
+    }
 }
