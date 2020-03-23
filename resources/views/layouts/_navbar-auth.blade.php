@@ -9,7 +9,7 @@
     </li>
 @else
     <li>
-        <a href="#">
+        <a href="{{ route('account.show') }}">
             {{ Auth::user()->email }}
         </a>
     </li>

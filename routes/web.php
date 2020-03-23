@@ -44,6 +44,15 @@ Route::group(['middleware' => 'auth'], function () {
         ->name('checklist.item.update');
     Route::delete('/checklist/item/{item}', 'ChecklistItemController@delete')
         ->name('checklist.item.delete');
+
+    Route::get('/account', 'AccountController@show')
+        ->name('account.show');
+    Route::put('/account/personal', 'AccountController@update')
+        ->name('account.update');
+    Route::put('/account/password', 'AccountController@password')
+        ->name('account.password');
+    Route::put('/account/reminder', 'AccountController@reminder')
+        ->name('account.reminder');
 });
 
 if (config('app.debug')) {

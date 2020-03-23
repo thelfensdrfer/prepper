@@ -140,7 +140,7 @@ h2 .btn {
 }
 
 .alert {
-    @apply p-4;
+    @apply p-4 mb-8;
 }
 .alert-success {
     @apply bg-green-300 text-green-900;
