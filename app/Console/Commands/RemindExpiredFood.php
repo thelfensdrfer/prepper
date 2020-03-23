@@ -41,7 +41,8 @@ class RemindExpiredFood extends Command
      */
     public function handle()
     {
-        $users = User::all();
+        $users = User::where('reminder_expired_food', true)
+            ->get();
 
         foreach ($users as $user) {
             $foodAboutToExpire = $user->foodAboutToExpire();
