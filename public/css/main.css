@@ -1,5 +1,5 @@
 /*!
- * Font Awesome Pro 5.12.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Pro 5.13.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)
  */
 
@@ -10,11 +10,11 @@
 
   font-weight: 400;
 
-  font-display: auto;
+  font-display: block;
 
-  src: url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.eot?23696b3c53d40823bbf03b6f5929a18d);
+  src: url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.eot?5739d02394088b39be41cbe628723cfa);
 
-  src: url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.eot?23696b3c53d40823bbf03b6f5929a18d?#iefix) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.woff2?272144c92f337ca162fe46de1bb245af) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.woff?9ec7e725b46f10a89a989bcae2a9f73e) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.ttf?4a0ea645f716eda9c352676fb7f67e3e) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.svg?8fbe9d94b2de3833eb21a1dc35cb2100#fontawesome) format("svg");
+  src: url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.eot?5739d02394088b39be41cbe628723cfa?#iefix) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.woff2?dd049a6496eea2a18937237b999ea8fa) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.woff?f5c3ba7919c746a90974c94d90e502e1) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.ttf?6ee0bdf1a4b4aad88663dfb01ef6f789) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-pro/webfa-regular-400.svg?606e54f607334e45061aab955bbabe29#fontawesome) format("svg");
 }
 
 .far {
@@ -22,7 +22,7 @@
   font-weight: 400;
 }
 /*!
- * Font Awesome Pro 5.12.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Pro 5.13.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)
  */
 
@@ -794,6 +794,14 @@ readers do not read off random characters that represent icons */
   content: "\F7E5";
 }
 
+.fa-bacteria:before {
+  content: "\F959";
+}
+
+.fa-bacterium:before {
+  content: "\F95A";
+}
+
 .fa-badge:before {
   content: "\F335";
 }
@@ -1288,6 +1296,10 @@ readers do not read off random characters that represent icons */
 
 .fa-box-open:before {
   content: "\F49E";
+}
+
+.fa-box-tissue:before {
+  content: "\F95B";
 }
 
 .fa-box-up:before {
@@ -4182,6 +4194,10 @@ readers do not read off random characters that represent icons */
   content: "\F6E5";
 }
 
+.fa-hand-holding-medical:before {
+  content: "\F95C";
+}
+
 .fa-hand-holding-seedling:before {
   content: "\F4BF";
 }
@@ -4242,6 +4258,10 @@ readers do not read off random characters that represent icons */
   content: "\F257";
 }
 
+.fa-hand-sparkles:before {
+  content: "\F95D";
+}
+
 .fa-hand-spock:before {
   content: "\F259";
 }
@@ -4262,12 +4282,24 @@ readers do not read off random characters that represent icons */
   content: "\F4C5";
 }
 
+.fa-hands-wash:before {
+  content: "\F95E";
+}
+
 .fa-handshake:before {
   content: "\F2B5";
 }
 
 .fa-handshake-alt:before {
   content: "\F4C6";
+}
+
+.fa-handshake-alt-slash:before {
+  content: "\F95F";
+}
+
+.fa-handshake-slash:before {
+  content: "\F960";
 }
 
 .fa-hanukiah:before {
@@ -4322,12 +4354,28 @@ readers do not read off random characters that represent icons */
   content: "\F808";
 }
 
+.fa-head-side-cough:before {
+  content: "\F961";
+}
+
+.fa-head-side-cough-slash:before {
+  content: "\F962";
+}
+
 .fa-head-side-headphones:before {
   content: "\F8C2";
 }
 
+.fa-head-side-mask:before {
+  content: "\F963";
+}
+
 .fa-head-side-medical:before {
   content: "\F809";
+}
+
+.fa-head-side-virus:before {
+  content: "\F964";
 }
 
 .fa-head-vr:before {
@@ -4560,6 +4608,10 @@ readers do not read off random characters that represent icons */
 
 .fa-house-signal:before {
   content: "\F912";
+}
+
+.fa-house-user:before {
+  content: "\F965";
 }
 
 .fa-houzz:before {
@@ -4926,6 +4978,10 @@ readers do not read off random characters that represent icons */
   content: "\F5FC";
 }
 
+.fa-laptop-house:before {
+  content: "\F966";
+}
+
 .fa-laptop-medical:before {
   content: "\F812";
 }
@@ -5212,6 +5268,10 @@ readers do not read off random characters that represent icons */
 
 .fa-lungs:before {
   content: "\F604";
+}
+
+.fa-lungs-virus:before {
+  content: "\F967";
 }
 
 .fa-lyft:before {
@@ -5994,6 +6054,10 @@ readers do not read off random characters that represent icons */
   content: "\F704";
 }
 
+.fa-people-arrows:before {
+  content: "\F968";
+}
+
 .fa-people-carry:before {
   content: "\F4CE";
 }
@@ -6182,6 +6246,10 @@ readers do not read off random characters that represent icons */
   content: "\F5B0";
 }
 
+.fa-plane-slash:before {
+  content: "\F969";
+}
+
 .fa-planet-moon:before {
   content: "\F91F";
 }
@@ -6340,6 +6408,14 @@ readers do not read off random characters that represent icons */
 
 .fa-projector:before {
   content: "\F8D6";
+}
+
+.fa-pump-medical:before {
+  content: "\F96A";
+}
+
+.fa-pump-soap:before {
+  content: "\F96B";
 }
 
 .fa-pumpkin:before {
@@ -6954,6 +7030,10 @@ readers do not read off random characters that represent icons */
   content: "\F712";
 }
 
+.fa-shield-virus:before {
+  content: "\F96C";
+}
+
 .fa-ship:before {
   content: "\F21A";
 }
@@ -7112,6 +7192,10 @@ readers do not read off random characters that represent icons */
 
 .fa-simplybuilt:before {
   content: "\F215";
+}
+
+.fa-sink:before {
+  content: "\F96D";
 }
 
 .fa-siren:before {
@@ -7304,6 +7388,10 @@ readers do not read off random characters that represent icons */
 
 .fa-snowplow:before {
   content: "\F7D2";
+}
+
+.fa-soap:before {
+  content: "\F96E";
 }
 
 .fa-socks:before {
@@ -7682,12 +7770,24 @@ readers do not read off random characters that represent icons */
   content: "\F2F2";
 }
 
+.fa-stopwatch-20:before {
+  content: "\F96F";
+}
+
 .fa-store:before {
   content: "\F54E";
 }
 
 .fa-store-alt:before {
   content: "\F54F";
+}
+
+.fa-store-alt-slash:before {
+  content: "\F970";
+}
+
+.fa-store-slash:before {
+  content: "\F971";
 }
 
 .fa-strava:before {
@@ -8212,6 +8312,10 @@ readers do not read off random characters that represent icons */
 
 .fa-toilet-paper-alt:before {
   content: "\F71F";
+}
+
+.fa-toilet-paper-slash:before {
+  content: "\F972";
 }
 
 .fa-tombstone:before {
@@ -8774,6 +8878,10 @@ readers do not read off random characters that represent icons */
   content: "\F830";
 }
 
+.fa-users-slash:before {
+  content: "\F973";
+}
+
 .fa-usps:before {
   content: "\F7E1";
 }
@@ -8896,6 +9004,18 @@ readers do not read off random characters that represent icons */
 
 .fa-violin:before {
   content: "\F8ED";
+}
+
+.fa-virus:before {
+  content: "\F974";
+}
+
+.fa-virus-slash:before {
+  content: "\F975";
+}
+
+.fa-viruses:before {
+  content: "\F976";
 }
 
 .fa-vk:before {

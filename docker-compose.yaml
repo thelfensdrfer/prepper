@@ -1,0 +1,70 @@
+version: '3.5'
+
+services:
+  redis:
+    image: redis:5.0-alpine
+    restart: unless-stopped
+    command: redis-server
+    env_file:
+      - .docker_env
+    volumes:
+    - ./docker/redis:/data/:Z
+    networks:
+      - app
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    user: $UID:$GID
+    env_file:
+      - .docker_env
+    volumes:
+      - ./docker/mysql:/var/lib/mysql:Z
+    networks:
+      - app
+  app:
+    build: .
+    restart: unless-stopped
+    user: $UID:$GID
+    env_file:
+      - .docker_env
+    depends_on:
+      - mysql
+      - redis
+    links:
+      - mysql
+      - redis
+    volumes:
+      - ./:/app:Z
+      - /app/docker
+    networks:
+      - app
+  nginx:
+    image: nginx:1.17-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    links:
+      - app
+    volumes:
+      -  ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./public:/app/public:ro
+    networks:
+      - app
+  composer:
+    build: ./docker/composer
+    restart: "no"
+    user: $UID:$GID
+    env_file:
+      - .docker_env
+    volumes:
+      - ./:/app:z
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge

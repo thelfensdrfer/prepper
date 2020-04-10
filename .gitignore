@@ -6,10 +6,12 @@
 /storage/*.key
 /vendor
 
+.docker_env
 .env
 .env.backup
 .npmrc
 .phpunit.result.cache
+docker-compose.override.yaml
 Homestead.json
 Homestead.yaml
 npm-debug.log
