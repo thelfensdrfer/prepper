@@ -10,7 +10,7 @@ class FoodGroup extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function foods()
+    public function food()
     {
         return $this->hasMany(Food::class)
             ->where('user_id', Auth::user()->id);

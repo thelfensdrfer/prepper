@@ -16,9 +16,9 @@ RUN apt-get install git -y
 # Install mysqldump for backups
 RUN apt-get install default-mysql-client -y
 
-RUN mkdir -p /app/public
+RUN mkdir /app
 
-WORKDIR /app/public
+WORKDIR /app
 
 CMD ["php-fpm"]
 

@@ -21,7 +21,7 @@ class FoodController extends Controller
         return view('food.index', [
             'foodGroups' => FoodGroup::
                 with([
-                    'foods',
+                    'food',
                     'foodPlan',
                 ])
                 ->get(),

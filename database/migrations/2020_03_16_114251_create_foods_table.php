@@ -21,7 +21,7 @@ class CreateFoodsTable extends Migration
             $table->string('icon', 50);
         });
 
-        Schema::create('foods', function (Blueprint $table) {
+        Schema::create('food', function (Blueprint $table) {
             $table->id();
 
             $table->bigInteger('user_id')
@@ -84,7 +84,7 @@ class CreateFoodsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('food_plans');
-        Schema::dropIfExists('foods');
+        Schema::dropIfExists('food');
         Schema::dropIfExists('food_groups');
     }
 }

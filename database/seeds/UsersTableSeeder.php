@@ -16,8 +16,8 @@ class UsersTableSeeder extends Seeder
         // Create admin if debug mode is activ
         if (config('app.debug')) {
             DB::table('users')->insert([
-                'email' => env('ADMIN_EMAIL'),
-                'password' => Hash::make(env('ADMIN_PASSWORD')),
+                'email' => config('app.admin.email'),
+                'password' => Hash::make(config('app.admin.password')),
             ]);
         }
     }
