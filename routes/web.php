@@ -22,28 +22,9 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/food', 'FoodController@index')
         ->name('food.index');
-    Route::post('/food/{food_group}', 'FoodController@store')
-        ->name('food.store');
-    Route::put('/food/{food}', 'FoodController@update')
-        ->name('food.update');
-    Route::delete('/food/{food}', 'FoodController@delete')
-        ->name('food.delete');
-
-    Route::put('/foodplan/{food_group}', 'FoodPlanController@update')
-        ->name('foodplan.update');
 
     Route::get('/checklists', 'ChecklistController@index')
         ->name('checklist.index');
-    Route::post('/checklists', 'ChecklistController@store')
-        ->name('checklist.store');
-    Route::put('/checklists/{checklist}', 'ChecklistController@update')
-        ->name('checklist.update');
-    Route::post('/checklist/{checklist}/item', 'ChecklistItemController@store')
-        ->name('checklist.item.store');
-    Route::put('/checklist/item/{item}', 'ChecklistItemController@update')
-        ->name('checklist.item.update');
-    Route::delete('/checklist/item/{item}', 'ChecklistItemController@delete')
-        ->name('checklist.item.delete');
 
     Route::get('/account', 'AccountController@show')
         ->name('account.show');

@@ -14,6 +14,7 @@ class ChecklistItem extends Model
     protected $fillable = [
         'name',
         'count',
+        'target_count',
     ];
 
     /**

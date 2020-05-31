@@ -1984,6 +1984,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2031,7 +2040,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     availableItemsCount: function availableItemsCount() {
       return this.checklist.items.filter(function (item) {
-        return item.count > 0;
+        return item.count >= item.target_count;
       }).length;
     },
     checklistIconClass: function checklistIconClass() {
@@ -2389,7 +2398,7 @@ __webpack_require__.r(__webpack_exports__);
       newFood: {
         name: null,
         count: 1,
-        weight: 100,
+        weight: 1000,
         expired_after: null
       }
     };
@@ -2474,6 +2483,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'CreateItem',
@@ -2490,13 +2508,15 @@ __webpack_require__.r(__webpack_exports__);
       isSaving: false,
       newItem: {
         name: null,
-        count: 1
+        count: 0,
+        target_count: 1
       }
     };
   },
   mounted: function mounted() {
     this.newItem.name = null;
-    this.newItem.count = 1;
+    this.newItem.count = 0;
+    this.newItem.target_count = 1;
   },
   methods: {
     save: function save() {
@@ -2819,8 +2839,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     isExpiredClass: function isExpiredClass(food) {
-      var expires_at = moment__WEBPACK_IMPORTED_MODULE_1___default()(food.expired_after);
-      var diff = moment__WEBPACK_IMPORTED_MODULE_1___default()().diff(expires_at, 'days');
+      var expires_at = moment__WEBPACK_IMPORTED_MODULE_1__(food.expired_after);
+      var diff = moment__WEBPACK_IMPORTED_MODULE_1__().diff(expires_at, 'days');
 
       if (diff < -30) {
         return '';
@@ -20361,8 +20381,6 @@ var map = {
 	"./dv.js": "./node_modules/moment/locale/dv.js",
 	"./el": "./node_modules/moment/locale/el.js",
 	"./el.js": "./node_modules/moment/locale/el.js",
-	"./en-SG": "./node_modules/moment/locale/en-SG.js",
-	"./en-SG.js": "./node_modules/moment/locale/en-SG.js",
 	"./en-au": "./node_modules/moment/locale/en-au.js",
 	"./en-au.js": "./node_modules/moment/locale/en-au.js",
 	"./en-ca": "./node_modules/moment/locale/en-ca.js",
@@ -23797,81 +23815,6 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     });
 
     return el;
-
-})));
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/locale/en-SG.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/locale/en-SG.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-//! moment.js locale configuration
-
-;(function (global, factory) {
-    true ? factory(__webpack_require__(/*! ../moment */ "./node_modules/moment/moment.js")) :
-   undefined
-}(this, (function (moment) { 'use strict';
-
-
-    var enSG = moment.defineLocale('en-SG', {
-        months : 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
-        monthsShort : 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
-        weekdays : 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
-        weekdaysShort : 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
-        weekdaysMin : 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_'),
-        longDateFormat : {
-            LT : 'HH:mm',
-            LTS : 'HH:mm:ss',
-            L : 'DD/MM/YYYY',
-            LL : 'D MMMM YYYY',
-            LLL : 'D MMMM YYYY HH:mm',
-            LLLL : 'dddd, D MMMM YYYY HH:mm'
-        },
-        calendar : {
-            sameDay : '[Today at] LT',
-            nextDay : '[Tomorrow at] LT',
-            nextWeek : 'dddd [at] LT',
-            lastDay : '[Yesterday at] LT',
-            lastWeek : '[Last] dddd [at] LT',
-            sameElse : 'L'
-        },
-        relativeTime : {
-            future : 'in %s',
-            past : '%s ago',
-            s : 'a few seconds',
-            ss : '%d seconds',
-            m : 'a minute',
-            mm : '%d minutes',
-            h : 'an hour',
-            hh : '%d hours',
-            d : 'a day',
-            dd : '%d days',
-            M : 'a month',
-            MM : '%d months',
-            y : 'a year',
-            yy : '%d years'
-        },
-        dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
-        ordinal : function (number) {
-            var b = number % 10,
-                output = (~~(number % 100 / 10) === 1) ? 'th' :
-                (b === 1) ? 'st' :
-                (b === 2) ? 'nd' :
-                (b === 3) ? 'rd' : 'th';
-            return number + output;
-        },
-        week : {
-            dow : 1, // Monday is the first day of the week.
-            doy : 4  // The week that contains Jan 4th is the first week of the year.
-        }
-    });
-
-    return enSG;
 
 })));
 
@@ -42527,8 +42470,10 @@ var render = function() {
                         _c("i", {
                           staticClass: "far fa-fw",
                           class: {
-                            "fa-check-circle text-green-500": item.count > 0,
-                            "fa-times text-red-500": item.count === 0
+                            "fa-check-circle text-green-500":
+                              item.count >= item.target_count,
+                            "fa-times text-red-500":
+                              item.count < item.target_count
                           },
                           attrs: { "aria-hidden": "true" }
                         })
@@ -42601,7 +42546,7 @@ var render = function() {
                     _c("div", { staticClass: "flex flex-wrap md:-mx-4" }, [
                       _c(
                         "div",
-                        { staticClass: "mb-6 w-full md:w-1/2 md:px-4" },
+                        { staticClass: "mb-6 w-full md:w-1/3 md:px-4" },
                         [
                           _c("label", { attrs: { for: "name" } }, [
                             _vm._v("Name")
@@ -42654,7 +42599,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "mb-6 w-full md:w-1/2 md:px-4" },
+                        { staticClass: "mb-6 w-full md:w-1/3 md:px-4" },
                         [
                           _c("label", { attrs: { for: "count" } }, [
                             _vm._v("Number of items")
@@ -42686,6 +42631,60 @@ var render = function() {
                                 _vm.$set(
                                   _vm.selectedItem,
                                   "count",
+                                  _vm._n($event.target.value)
+                                )
+                              },
+                              blur: function($event) {
+                                return _vm.$forceUpdate()
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "hidden invalid-feedback",
+                              attrs: { role: "alert" }
+                            },
+                            [_c("strong")]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "mb-6 w-full md:w-1/3 md md:px-4" },
+                        [
+                          _c("label", { attrs: { for: "target_count" } }, [
+                            _vm._v("Target count")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.number",
+                                value: _vm.selectedItem.target_count,
+                                expression: "selectedItem.target_count",
+                                modifiers: { number: true }
+                              }
+                            ],
+                            attrs: {
+                              id: "target_count",
+                              type: "number",
+                              name: "target_count",
+                              min: "0",
+                              required: ""
+                            },
+                            domProps: { value: _vm.selectedItem.target_count },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.selectedItem,
+                                  "target_count",
                                   _vm._n($event.target.value)
                                 )
                               },
@@ -43341,7 +43340,7 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "flex flex-wrap md:-mx-4" }, [
-                _c("div", { staticClass: "mb-6 w-full md:w-1/2 md:px-4" }, [
+                _c("div", { staticClass: "mb-6 w-full md:w-1/3 md:px-4" }, [
                   _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
                   _vm._v(" "),
                   _c("input", {
@@ -43388,7 +43387,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "mb-6 w-full md:w-1/2 md:px-4" }, [
+                _c("div", { staticClass: "mb-6 w-full md:w-1/3 md:px-4" }, [
                   _c("label", { attrs: { for: "count" } }, [
                     _vm._v("Number of items")
                   ]),
@@ -43418,6 +43417,55 @@ var render = function() {
                         _vm.$set(
                           _vm.newItem,
                           "count",
+                          _vm._n($event.target.value)
+                        )
+                      },
+                      blur: function($event) {
+                        return _vm.$forceUpdate()
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass: "hidden invalid-feedback",
+                      attrs: { role: "alert" }
+                    },
+                    [_c("strong")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "mb-6 w-full md:w-1/3 md:px-4" }, [
+                  _c("label", { attrs: { for: "target_count" } }, [
+                    _vm._v("Target count")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.number",
+                        value: _vm.newItem.target_count,
+                        expression: "newItem.target_count",
+                        modifiers: { number: true }
+                      }
+                    ],
+                    attrs: {
+                      id: "target_count",
+                      type: "number",
+                      name: "target_count",
+                      min: "0"
+                    },
+                    domProps: { value: _vm.newItem.target_count },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.newItem,
+                          "target_count",
                           _vm._n($event.target.value)
                         )
                       },
@@ -57372,6 +57420,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Ziggy", function() { return Ziggy; });
 var Ziggy = {
   namedRoutes: {
+    "food.store": {
+      "uri": "api\/food\/{food_group}",
+      "methods": ["POST"],
+      "domain": null
+    },
+    "food.update": {
+      "uri": "api\/food\/{food}",
+      "methods": ["PUT"],
+      "domain": null
+    },
+    "food.delete": {
+      "uri": "api\/food\/{food}",
+      "methods": ["DELETE"],
+      "domain": null
+    },
+    "foodplan.update": {
+      "uri": "api\/foodplan\/{food_group}",
+      "methods": ["PUT"],
+      "domain": null
+    },
+    "checklist.store": {
+      "uri": "api\/checklists",
+      "methods": ["POST"],
+      "domain": null
+    },
+    "checklist.update": {
+      "uri": "api\/checklists\/{checklist}",
+      "methods": ["PUT"],
+      "domain": null
+    },
+    "checklist.item.store": {
+      "uri": "api\/checklist\/{checklist}\/item",
+      "methods": ["POST"],
+      "domain": null
+    },
+    "checklist.item.update": {
+      "uri": "api\/checklist\/item\/{item}",
+      "methods": ["PUT"],
+      "domain": null
+    },
+    "checklist.item.delete": {
+      "uri": "api\/checklist\/item\/{item}",
+      "methods": ["DELETE"],
+      "domain": null
+    },
     "landing": {
       "uri": "\/",
       "methods": ["GET", "HEAD"],
@@ -57422,54 +57515,9 @@ var Ziggy = {
       "methods": ["GET", "HEAD"],
       "domain": null
     },
-    "food.store": {
-      "uri": "food\/{food_group}",
-      "methods": ["POST"],
-      "domain": null
-    },
-    "food.update": {
-      "uri": "food\/{food}",
-      "methods": ["PUT"],
-      "domain": null
-    },
-    "food.delete": {
-      "uri": "food\/{food}",
-      "methods": ["DELETE"],
-      "domain": null
-    },
-    "foodplan.update": {
-      "uri": "foodplan\/{food_group}",
-      "methods": ["PUT"],
-      "domain": null
-    },
     "checklist.index": {
       "uri": "checklists",
       "methods": ["GET", "HEAD"],
-      "domain": null
-    },
-    "checklist.store": {
-      "uri": "checklists",
-      "methods": ["POST"],
-      "domain": null
-    },
-    "checklist.update": {
-      "uri": "checklists\/{checklist}",
-      "methods": ["PUT"],
-      "domain": null
-    },
-    "checklist.item.store": {
-      "uri": "checklist\/{checklist}\/item",
-      "methods": ["POST"],
-      "domain": null
-    },
-    "checklist.item.update": {
-      "uri": "checklist\/item\/{item}",
-      "methods": ["PUT"],
-      "domain": null
-    },
-    "checklist.item.delete": {
-      "uri": "checklist\/item\/{item}",
-      "methods": ["DELETE"],
       "domain": null
     },
     "account.show": {
@@ -57493,10 +57541,10 @@ var Ziggy = {
       "domain": null
     }
   },
-  baseUrl: 'http://prepper.localhost/',
+  baseUrl: 'http://prepper.localhost:8080/',
   baseProtocol: 'http',
   baseDomain: 'prepper.localhost',
-  basePort: false,
+  basePort: 8080,
   defaultParameters: []
 };
 

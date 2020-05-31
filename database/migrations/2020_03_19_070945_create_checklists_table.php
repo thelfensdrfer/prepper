@@ -39,6 +39,10 @@ class CreateChecklistsTable extends Migration
 
             $table->string('name');
             $table->integer('count')
+                ->default(0)
+                ->unsigned();
+            $table->integer('target_count')
+                ->default(0)
                 ->unsigned();
 
             $table->timestamps();

@@ -21,7 +21,7 @@
                 <tbody>
                     <tr v-for="item in checklist.items" :key="item.id" class="cursor-pointer hover:bg-gray-200" @click="openUpdateItemModal(item)">
                         <td>
-                            <i class="far fa-fw" :class="{ 'fa-check-circle text-green-500': item.count > 0, 'fa-times text-red-500': item.count === 0 }" aria-hidden="true"></i>
+                            <i class="far fa-fw" :class="{ 'fa-check-circle text-green-500': item.count >= item.target_count, 'fa-times text-red-500': item.count < item.target_count }" aria-hidden="true"></i>
                         </td>
                         <td v-text="item.name" class="px-2 py-1"></td>
                         <td v-text="item.count" class="px-2 py-1 text-right font-mono"></td>
@@ -36,7 +36,7 @@
                     <input type="hidden" name="id" v-model="selectedItem.id">
 
                     <div class="flex flex-wrap md:-mx-4">
-                        <div class="mb-6 w-full md:w-1/2 md:px-4">
+                        <div class="mb-6 w-full md:w-1/3 md:px-4">
                             <label for="name">Name</label>
                             <input id="name" type="text" name="name" v-model.trim="selectedItem.name" required>
 
@@ -45,9 +45,18 @@
                             </span>
                         </div>
 
-                        <div class="mb-6 w-full md:w-1/2 md:px-4">
+                        <div class="mb-6 w-full md:w-1/3 md:px-4">
                             <label for="count">Number of items</label>
                             <input id="count" type="number" name="count" min="0" v-model.number="selectedItem.count" required>
+
+                            <span class="hidden invalid-feedback" role="alert">
+                                <strong></strong>
+                            </span>
+                        </div>
+
+                        <div class="mb-6 w-full md:w-1/3 md md:px-4">
+                            <label for="target_count">Target count</label>
+                            <input id="target_count" type="number" name="target_count" min="0" v-model.number="selectedItem.target_count" required>
 
                             <span class="hidden invalid-feedback" role="alert">
                                 <strong></strong>
@@ -126,7 +135,7 @@
             },
             availableItemsCount () {
                 return this.checklist.items.filter(function (item) {
-                    return item.count > 0;
+                    return item.count >= item.target_count;
                 }).length;
             },
             checklistIconClass () {

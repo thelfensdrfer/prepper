@@ -34,6 +34,7 @@ class UpdateChecklistItem extends FormRequest
         return [
             'name' => 'required',
             'count' => 'required|integer|min:0',
+            'target_count' => 'required|integer|min:0',
         ];
     }
 }

@@ -26,7 +26,8 @@ class StoreChecklistItem extends FormRequest
     {
         return [
             'name' => 'required',
-            'count' => 'integer|min:0',
+            'count' => 'required|integer|min:0',
+            'target_count' => 'required|integer|min:0',
         ];
     }
 }

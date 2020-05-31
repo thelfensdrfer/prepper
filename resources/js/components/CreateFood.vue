@@ -77,7 +77,7 @@
                 newFood: {
                     name: null,
                     count: 1,
-                    weight: 100,
+                    weight: 1000,
                     expired_after: null,
                 }
             }
