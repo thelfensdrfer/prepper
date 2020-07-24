@@ -9,11 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-use Laravel\Sanctum\HasApiTokens;
-
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.

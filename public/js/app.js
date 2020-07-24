@@ -57660,51 +57660,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Ziggy", function() { return Ziggy; });
 var Ziggy = {
   namedRoutes: {
-    "food.store": {
-      "uri": "api\/food\/{food_group}",
-      "methods": ["POST"],
-      "domain": null
-    },
-    "food.update": {
-      "uri": "api\/food\/{food}",
-      "methods": ["PUT"],
-      "domain": null
-    },
-    "food.delete": {
-      "uri": "api\/food\/{food}",
-      "methods": ["DELETE"],
-      "domain": null
-    },
-    "foodplan.update": {
-      "uri": "api\/foodplan\/{food_group}",
-      "methods": ["PUT"],
-      "domain": null
-    },
-    "checklist.store": {
-      "uri": "api\/checklists",
-      "methods": ["POST"],
-      "domain": null
-    },
-    "checklist.update": {
-      "uri": "api\/checklists\/{checklist}",
-      "methods": ["PUT"],
-      "domain": null
-    },
-    "checklist.item.store": {
-      "uri": "api\/checklist\/{checklist}\/item",
-      "methods": ["POST"],
-      "domain": null
-    },
-    "checklist.item.update": {
-      "uri": "api\/checklist\/item\/{item}",
-      "methods": ["PUT"],
-      "domain": null
-    },
-    "checklist.item.delete": {
-      "uri": "api\/checklist\/item\/{item}",
-      "methods": ["DELETE"],
-      "domain": null
-    },
     "landing": {
       "uri": "\/",
       "methods": ["GET", "HEAD"],
@@ -57778,6 +57733,51 @@ var Ziggy = {
     "account.reminder": {
       "uri": "account\/reminder",
       "methods": ["PUT"],
+      "domain": null
+    },
+    "food.store": {
+      "uri": "food\/{food_group}",
+      "methods": ["POST"],
+      "domain": null
+    },
+    "food.update": {
+      "uri": "food\/{food}",
+      "methods": ["PUT"],
+      "domain": null
+    },
+    "food.delete": {
+      "uri": "food\/{food}",
+      "methods": ["DELETE"],
+      "domain": null
+    },
+    "foodplan.update": {
+      "uri": "foodplan\/{food_group}",
+      "methods": ["PUT"],
+      "domain": null
+    },
+    "checklist.store": {
+      "uri": "checklists",
+      "methods": ["POST"],
+      "domain": null
+    },
+    "checklist.update": {
+      "uri": "checklists\/{checklist}",
+      "methods": ["PUT"],
+      "domain": null
+    },
+    "checklist.item.store": {
+      "uri": "checklist\/{checklist}\/item",
+      "methods": ["POST"],
+      "domain": null
+    },
+    "checklist.item.update": {
+      "uri": "checklist\/item\/{item}",
+      "methods": ["PUT"],
+      "domain": null
+    },
+    "checklist.item.delete": {
+      "uri": "checklist\/item\/{item}",
+      "methods": ["DELETE"],
       "domain": null
     }
   },
