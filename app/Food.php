@@ -26,6 +26,8 @@ class Food extends Model
     protected $casts = [
         'count' => 'integer',
         'weight' => 'integer',
-        'expired_after' => 'date',
+        'created_at' => 'date:Y-m-d',
+        'updated_at' => 'date:Y-m-d',
+        'expired_after' => 'date:Y-m-d',
     ];
 }

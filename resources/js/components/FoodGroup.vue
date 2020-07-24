@@ -32,7 +32,7 @@
 
             <table class="w-full">
                 <tbody>
-                    <tr v-for="food in foods" :key="food.id" class="cursor-pointer hover:bg-gray-200" :class="isExpiredClass(food)" @click="openUpdateStockModal(food)" :title="moment(food.expired_after).format('YYYY-MM-DD')">
+                    <tr v-for="food in food" :key="food.id" class="cursor-pointer hover:bg-gray-200" :class="isExpiredClass(food)" @click="openUpdateStockModal(food)" :title="'Expires: ' + moment(food.expired_after).format('YYYY-MM-DD')">
                         <td v-text="food.name" class="px-2 py-1"></td>
                         <td v-text="food.count" class="px-2 py-1 text-right font-mono"></td>
                         <td v-text="food.weight + 'g'" class="px-2 py-1 text-right font-mono"></td>
@@ -77,7 +77,7 @@
 
                     <div class="mb-6">
                         <label for="expired_after">Expires after</label>
-                        <input id="expired_after" type="date" name="expired_after" v-model="selectedFood.expired_after">
+                        <v-date-picker v-model="selectedFoodExpiredAfter" :popover="{ placement: 'top', visibility: 'click' }" :id="'expired_after'" :name="'expired_after'" :masks="{ input: ['YYYY-MM-DD']}" mode="single"></v-date-picker>
 
                         <span class="hidden invalid-feedback" role="alert">
                             <strong></strong>
@@ -130,7 +130,7 @@
         },
         data() {
             return {
-                foods: [],
+                food: [],
 
                 showOptimalStockModal: false,
                 isSavingOptimalStock: false,
@@ -145,7 +145,7 @@
         mounted() {
             console.debug(`Food group ${this.food_group.id} mounted.`)
 
-            this.foods = this.food_group.foods;
+            this.food = this.food_group.food;
 
             if (this.food_group.food_plan) {
                 this.optimalStock = this.food_group.food_plan.optimal_stock;
@@ -160,8 +160,8 @@
             stock () {
                 let stock = 0;
 
-                for (let i = 0; i < this.foods.length; i++) {
-                    stock += this.foods[i].count * this.foods[i].weight;
+                for (let i = 0; i < this.food.length; i++) {
+                    stock += this.food[i].count * this.food[i].weight;
                 }
 
                 return stock;
@@ -187,6 +187,16 @@
 
                 return CLASS_RED;
             },
+            selectedFoodExpiredAfter: {
+                get () {
+                    return moment(this.selectedFood.expired_after).toDate();
+                },
+                set (val) {
+                    if (val && moment(val).isValid()) {
+                        this.selectedFood.expired_after = moment(val).format('YYYY-MM-DD');
+                    }
+                }
+            }
         },
         methods: {
             saveOptimalStock () {
@@ -243,9 +253,9 @@
                     })
                     .then(function (response) {
                         if (response && response.data) {
-                            for (let i = 0; i < that.foods.length; i++) {
-                                if (that.foods[i].id === response.data.id) {
-                                    that.foods[i] = response.data;
+                            for (let i = 0; i < that.food.length; i++) {
+                                if (that.food[i].id === response.data.id) {
+                                    that.food[i] = response.data;
                                     break;
                                 }
                             }
@@ -262,7 +272,7 @@
                 this.selectedFood = food;
             },
             addFood (food) {
-                this.foods.push(food);
+                this.food.push(food);
             },
             deleteFood () {
                 console.debug(`Removing food ${this.selectedFood.id}`)
@@ -284,9 +294,9 @@
                     })
                     .then(function (response) {
                         if (response && response.status === 200) {
-                            for (let i = 0; i < that.foods.length; i++) {
-                                if (that.foods[i].id === that.selectedFood.id) {
-                                    that.foods.splice(i, 1);
+                            for (let i = 0; i < that.food.length; i++) {
+                                if (that.food[i].id === that.selectedFood.id) {
+                                    that.food.splice(i, 1);
                                     break;
                                 }
                             }

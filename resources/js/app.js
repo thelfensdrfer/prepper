@@ -10,6 +10,7 @@ window.Vue = require('vue');
 
 import route from 'ziggy'
 import { Ziggy } from './ziggy'
+import VCalendar from 'v-calendar';
 
 Vue.mixin({
     methods: {
@@ -27,6 +28,7 @@ Vue.mixin({
 
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.use(VCalendar)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
