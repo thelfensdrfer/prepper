@@ -27417,6 +27417,15 @@ nav ul li a:hover {
  * Typography
  */
 
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: 0.025em;
+  line-height: 1;
+  font-family: Anton, sans-serif;
+}
+
 h2 {
   font-size: 2.25rem;
   font-weight: 700;
@@ -27578,6 +27587,14 @@ h2 .btn {
   --bg-opacity: 1;
   background-color: #edf2f7;
   background-color: rgba(237, 242, 247, var(--bg-opacity));
+}
+
+.btn-lg {
+  font-size: 1.25rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .invalid-feedback {
