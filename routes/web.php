@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/food', 'FoodController@index')
