@@ -1,5 +1,9 @@
 version: '3.5'
 
+volumes:
+  prepper-redis:
+  prepper-mysql:
+
 services:
   redis:
     image: redis:5.0-alpine
@@ -8,17 +12,16 @@ services:
     env_file:
       - .docker_env
     volumes:
-    - ./docker/redis:/data/:Z
+    - prepper-redis:/data/
     networks:
       - app
   mysql:
     image: mysql:8
     restart: unless-stopped
-    user: $UID:$GID
     env_file:
       - .docker_env
     volumes:
-      - ./docker/mysql:/var/lib/mysql:Z
+      - prepper-mysql:/var/lib/mysql
     networks:
       - app
   app:
@@ -34,8 +37,7 @@ services:
       - mysql
       - redis
     volumes:
-      - ./:/app:Z
-      - /app/docker
+      - ./:/app
     networks:
       - app
   nginx:
@@ -57,7 +59,7 @@ services:
     env_file:
       - .docker_env
     volumes:
-      - ./:/app:z
+      - ./:/app
     depends_on:
       - mysql
     links:
