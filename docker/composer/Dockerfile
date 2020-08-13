@@ -1,6 +1,6 @@
 FROM php:7.4-cli
 
-MAINTAINER vivamind GmbH <tim.helfensdoerfer@vivamind.de>
+MAINTAINER Tim Helfensdörfer <thelfensdrfer@gmail.com>
 
 # Install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
