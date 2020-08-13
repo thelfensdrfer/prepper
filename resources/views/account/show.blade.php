@@ -5,7 +5,7 @@
 
     <div class="flex flex-wrap lg:-mx-8">
         <div class="w-full lg:w-1/2 lg:px-8">
-            <h3>{{ __('Update personal information') }}</h3>
+            <h3>{{ __('Personal Information') }}</h3>
 
             <form action="{{ route('account.update') }}" method="post">
                 <input type="hidden" name="_method" value="put">
@@ -103,7 +103,7 @@
         </div>
 
         <div class="w-full mt-8 lg:w-1/2 lg:px-8">
-            <h3>{{ __('Update Email Reminders') }}</h3>
+            <h3>{{ __('Pro Account (comming soon)') }}</h3>
 
             <form action="{{ route('account.reminder') }}" method="post">
                 <input type="hidden" name="_method" value="put">
@@ -120,8 +120,18 @@
                     </label>
                 </div>
 
-                <button type="submit" class="btn btn-primary">
-                    <i class="far fa-save" aria-hidden="true"></i> {{ __('Save reminder') }}
+                <div class="mb-4">
+                    <label class="font-bold cursor-pointer">{{ __('E-Mail Backup of your data in a excel sheet.') }}</label>
+
+                    <select class="mr-2 leading-tight" name="backup_interval" id="backup-interval">
+                        <option value="1">{{ __('Daily') }}</option>
+                        <option value="1">{{ __('Weekly') }}</option>
+                        <option value="1">{{ __('Monthly') }}</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-disabled">
+                    <i class="far fa-save" aria-hidden="true"></i> {{ __('Save') }}
                 </button>
             </form>
         </div>
