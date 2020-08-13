@@ -45,6 +45,9 @@ class RemindExpiredFood extends Command
             ->get();
 
         foreach ($users as $user) {
+            /**
+             * @var $user User
+             */
             $foodAboutToExpire = $user->foodAboutToExpire();
 
             if (count($foodAboutToExpire) === 0) {
@@ -53,5 +56,7 @@ class RemindExpiredFood extends Command
 
             Mail::to($user)->send(new FoodExpires($foodAboutToExpire));
         }
+
+        return true;
     }
 }
