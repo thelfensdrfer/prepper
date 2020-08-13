@@ -12,7 +12,9 @@
 
                 <div class="flex-shrink">
                     <div class="h-full px-2 py-1">
-                        <i :class="checklistIconClass" aria-hidden="true"></i> {{ availableItemsCount }} / {{ checklist.items.length }}
+                        <span title="Number of items you have enough of">
+                            <i :class="checklistIconClass" aria-hidden="true"></i> {{ availableItemsCount }} / {{ checklist.items.length }}
+                        </span>
                     </div>
                 </div>
             </div>
