@@ -5,7 +5,7 @@
             class="fixed inset-0 w-full h-screen flex items-center justify-center"
             style="background-color: rgba(0, 0, 0, .5)"
             @click.self="close">
-            <div class="relative w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
+            <div class="relative m-8 md:mx-0 w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
                 <button
                     aria-label="close"
                     class="absolute top-0 right-0 my-2 mx-4"

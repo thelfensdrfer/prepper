@@ -50,7 +50,7 @@
 
             <div class="border-b border-gray-200"></div>
 
-            <main class="py-8 px-16">
+            <main class="px-8 py-8 md:px-16">
                 @include('flash::message')
 
                 @yield('content')
